@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/calendar.css' %}">
+  <title>Calendar</title>
+</head>
+<body>
+  <div class="calendar">
+    <div class="calendar__picture">
+      <h2>{{month}}, {{year}}</h2>
+
+      <form action='/cal_prev' method='GET'>
+         <button type='submit'>prev</button>
+      </form>
+
+      <form action='/cal_next' method='GET'>
+         <button type='submit'>next</button>
+      </form>
+         
+    </div>
+    <div class="calendar__date">
+      <div class="calendar__day">M</div>
+      <div class="calendar__day">T</div>
+      <div class="calendar__day">W</div>
+      <div class="calendar__day">T</div>
+      <div class="calendar__day">F</div>
+      <div class="calendar__day">S</div>
+      <div class="calendar__day">S</div>
+      {% for week in cal %}
+         {% for day in week %}
+            {% if day >= t_day%}
+               <div class="calendar__number">
+                  <a href="">{{day}}</a>    
+               </div>
+            {% elif day == 0 %}
+               <div>
+                  <p> </p>   
+               </div> 
+            {% else %}
+               <div class="calendar__number_passed">
+                  <p>{{day}}</p>    
+               </div>
+            {% endif %}  
+         {% endfor %}
+      {% endfor %}  
+  </div>
+</body>
+</html>
