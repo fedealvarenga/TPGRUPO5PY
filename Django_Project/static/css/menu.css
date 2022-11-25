@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+/* @import url(https://fonts.googleapis.com/css?family=Roboto:300);
 #barra{
   font-family: "Roboto";
   background-color: lightcoral;
@@ -21,3 +21,10 @@
   background-color: lightcoral;
   color: lightpink;
 }
+ */
+
+ .bg-primary{
+	  --bs-bg-opacity: 1;
+    background-color: lightskyblue !important;
+    opacity:1 !important;
+ }

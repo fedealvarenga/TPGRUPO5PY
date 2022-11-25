@@ -10,76 +10,99 @@
   <title>Calendar</title>
 </head>
 <body>
-  <div class="calendar">
-    <div class="calendar__picture">
-      <h2>{{month_name}}, {{year}}</h2>
 
-      <form action='/cal/{{actual_month_number}}' method='GET'>
-         <button type='submit'>prev</button>
-      </form>
+   {% include "header_footer.html" %}
 
-      <form action='/cal/{{actual_month_number}}' method='GET'>
-         <button type='submit'>next</button>
-      </form>
-         
-    </div>
-    <div class="calendar__date">
-      <div class="calendar__day">M</div>
-      <div class="calendar__day">T</div>
-      <div class="calendar__day">W</div>
-      <div class="calendar__day">T</div>
-      <div class="calendar__day">F</div>
-      <div class="calendar__day">S</div>
-      <div class="calendar__day">S</div>
-      {% for week in cal %}
-         {% for day in week %}
-            {% if actual_month_number > today_month_number %}  
-               {% if day == 0 %}
-                  <div>
-                     <p> </p>   
-                  </div> 
-               {% else %}
-                  <div class="calendar__number">
-                     <a href="">{{day}}</a>    
-                  </div>
-               {% endif %}
 
-            {% elif actual_month_number == today_month_number %}
-               {% if day >= today_day_number  %}
-                  <div class="calendar__number_passed">
-                     <p>{{day}}</p>    
-                  </div>
-               {%elif day == 0%}
-                  <div>
-                     <p> </p>   
-                  </div> 
-               {% else %}
-                  <div class="calendar__number">
-                     <a href="">{{day}}</a>    
-                  </div>
-               {% endif %} 
+   <div class="cuerpo">
+      <div class="calendar">
+         <div class="calendar__picture">
+            <h2>{{month_name}}, {{year}}</h2>
+
+            <form class='botones' action='/cal/prev/' method='GET'>
+               <input type="hidden" name="month" value="{{actual_month_number}}">
+               <button type='submit'>prev</button>
+            </form>
+
+            <form class='botones' action='/cal/next/' method='GET'>
+               <button type='submit'>next</button>
+               <input type="hidden" name="month" value="{{actual_month_number}}">
+
+            </form>
                
-            {% else %}
-               {% if day == 0 %}
-                  <div>
-                     <p> </p>   
-                  </div> 
-               {% else %}
-                  <div class="calendar__number_passed">
-                     <p>{{day}}</p> 
-                  </div>
-               {% endif %} 
+         </div>
+         <div class="calendar__date">
+            <div class="calendar__day">M</div>
+            <div class="calendar__day">T</div>
+            <div class="calendar__day">W</div>
+            <div class="calendar__day">T</div>
+            <div class="calendar__day">F</div>
+            <div class="calendar__day">S</div>
+            <div class="calendar__day">S</div>
+            {% for week in cal %}
+               {% for day in week %}
+                  {% if today_year == year %}
+                     {% if actual_month_number > today_month_number %}  
+                        {% if day == 0 %}
+                           <div>
+                              <p> </p>   
+                           </div> 
+                        {% else %}
+                           <div class="calendar__number">
+                              <a href="">{{day}}</a>    
+                           </div>
+                        {% endif %}
 
-            {% endif %}
-         {% endfor %}
-      {% endfor %}  
-  </div>
-  
-<footer>
-   <p>{{actual_month_number}}</p>
-   <p>{{today_month_number}}</p>
-
-</footer>
-  
+                     {% elif actual_month_number == today_month_number %}
+                        {% if day >= today_day_number  %}
+                           <div class="calendar__number"> 
+                              <a href="">{{day}}</a>     
+                           </div>
+                        {%elif day == 0%}
+                           <div>
+                              <p> </p>   
+                           </div> 
+                        {% else %}
+                           <div class="calendar__number_passed">
+                              <p>{{day}}</p> 
+                           </div>
+                        {% endif %} 
+                        
+                     {% else %}
+                        {% if day == 0 %}
+                           <div>
+                              <p> </p>   
+                           </div> 
+                        {% else %}
+                           <div class="calendar__number_passed">
+                              <p>{{day}}</p> 
+                           </div>
+                        {% endif %} 
+                     {% endif %}
+                  {% elif today_year < year %}
+                     {% if day == 0 %}
+                        <div>
+                           <p> </p>   
+                        </div> 
+                     {% else %}
+                        <div class="calendar__number">
+                           <a href="">{{day}}</a>    
+                        </div>
+                     {% endif %}
+                  {% else %}
+                     {% if day == 0 %}
+                        <div>
+                           <p> </p>   
+                        </div> 
+                     {% else %}
+                        <div class="calendar__number_passed">
+                           <p>{{day}}</p>    
+                        </div>
+                     {% endif %}
+                  {% endif %}
+               {% endfor %}
+            {% endfor %}  
+      </div>
+   </div>
 </body>
 </html>
