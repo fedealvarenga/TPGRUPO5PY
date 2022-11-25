@@ -18,11 +18,10 @@ from django.urls import path
 #falta archivo views.py
 from .views import *
 urlpatterns = [
-    #path(f'cal/{today.month}', cal),
     path('cal/', cal),
-    path('cal_next/', calendar_next),
-    #path('cal_prev/<int: month>', calendar_prev),
-    path('cal_prev/', calendar_prev),
+    path('cal/<int:month>', cal),
+    path('cal/<int:month>', cal_prev),
+    path('cal/<int:month>', cal_next),
     path('login/', login),
     path('hf/', header_footer),
 ]

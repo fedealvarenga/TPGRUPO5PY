@@ -12,13 +12,13 @@
 <body>
   <div class="calendar">
     <div class="calendar__picture">
-      <h2>{{month}}, {{year}}</h2>
+      <h2>{{month_name}}, {{year}}</h2>
 
-      <form action='/cal_prev' method='GET'>
+      <form action='/cal/{{month_number}}' method='GET'>
          <button type='submit'>prev</button>
       </form>
 
-      <form action='/cal_next' method='GET'>
+      <form action='/cal/{{month_number}}' method='GET'>
          <button type='submit'>next</button>
       </form>
          
@@ -33,21 +33,53 @@
       <div class="calendar__day">S</div>
       {% for week in cal %}
          {% for day in week %}
-            {% if day >= t_day%}
-               <div class="calendar__number">
-                  <a href="">{{day}}</a>    
-               </div>
-            {% elif day == 0 %}
-               <div>
-                  <p> </p>   
-               </div> 
+            {% if actual_month_number > today_month_number %}  
+               {% if day == 0 %}
+                  <div>
+                     <p> </p>   
+                  </div> 
+               {% else %}
+                  <div class="calendar__number">
+                     <a href="">{{day}}</a>    
+                  </div>
+               {% endif %}
+
+            {% elif actual_month_number == today_month_number %}
+               {% if day >= today_day_number  %}
+                  <div class="calendar__number_passed">
+                     <p>{{day}}</p>    
+                  </div>
+               {%elif day == 0%}
+                  <div>
+                     <p> </p>   
+                  </div> 
+               {% else %}
+                  <div class="calendar__number">
+                     <a href="">{{day}}</a>    
+                  </div>
+               {% endif %} 
+               
             {% else %}
-               <div class="calendar__number_passed">
-                  <p>{{day}}</p>    
-               </div>
-            {% endif %}  
+               {% if day == 0 %}
+                  <div>
+                     <p> </p>   
+                  </div> 
+               {% else %}
+                  <div class="calendar__number_passed">
+                     <p>{{day}}</p> 
+                  </div>
+               {% endif %} 
+
+            {% endif %}
          {% endfor %}
       {% endfor %}  
   </div>
+  
+<footer>
+   <p>{{actual_month_number}}</p>
+   <p>{{today_month_number}}</p>
+
+</footer>
+  
 </body>
 </html>

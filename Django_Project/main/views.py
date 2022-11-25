@@ -8,27 +8,22 @@ import datetime
 today = datetime.datetime.today()
 
 
-def cal(request):
+def cal(request, month = today.month):
     date = datetime.datetime.today()   
-    cal = calendar.monthcalendar(date.year, date.month)
-    # redireccionar con lista despegable
-    return render(request, "calendar.html", {"cal": cal, "year": date.year ,"month": date.strftime('%B'), "num": date.day, "today": date.strftime('%A')})
-
-def calendar_next(request, month):
-    # ver que pasa al pasar de year
-    date = datetime.date(year=today.year, month=month+1, day=1)  
     cal = calendar.monthcalendar(date.year, month)
     # redireccionar con lista despegable
-    return render(request, "calendar.html", {"cal": cal, "year": date.year ,"month": date.strftime('%B'), "t_day": today.day, "t_month": today.month})
+    return render(request, "calendar.html", {"cal": cal, "year": date.year ,"month_name": calendar.month_name[month], "today_day_number": today.day, "today_month_number": today.month , "actual_month_number": month })
 
-def calendar_prev(request):
+def cal_next(request):
     # ver que pasa al pasar de year
-    date = datetime.date(year=today.year, month=today.month-1, day=1)  
-    cal = calendar.monthcalendar(date.year, date.month)
-    # redireccionar con lista despegable
-    return render(request, "calendar.html", {"cal": cal, "year": date.year ,"month": date.strftime('%B'), "num": date.day})
+    month = request.GET.get('month')
+    cal(request, month+1)
 
-
+def cal_prev(request, month):
+    # ver que pasa al pasar de year
+    month = request.GET.get('month')
+    cal(request, month-1)
+    
 def login(request): #redireccion sign_up
     return render(request, "login.html")
 
