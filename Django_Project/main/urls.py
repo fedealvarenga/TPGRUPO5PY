@@ -20,8 +20,9 @@ from .views import *
 urlpatterns = [
     path('cal/', cal),
     path('cal/<int:month>', cal),
-    path('cal/<int:month>', cal_prev),
-    path('cal/<int:month>', cal_next),
+    path('cal/<month>/', cal_prev, name = "cal_prev"),
+    path('cal/<month>/', cal_next , name = "cal_next"),
+    
     path('login/', login),
     path('hf/', header_footer),
 ]
