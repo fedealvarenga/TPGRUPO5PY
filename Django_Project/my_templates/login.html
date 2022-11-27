@@ -8,9 +8,12 @@
   <link rel="stylesheet" href="{% static 'css/login.css' %}">
   <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
   <script type="text/javascript" src="{% static 'js/login.js' %}"></script>
-  <title>Document</title>
+  <title>Log-In</title>
 </head>
 <body>
+
+  {% include "default/header.html" %}
+
   <div class="login-page">
     <div class="form">
       <form class="register-form">
@@ -28,5 +31,6 @@
       </form>
     </div>
   </div>
+  {% include "default/footer.html" %}
 </body>
 </html>

@@ -11,26 +11,28 @@
 </head>
 <body>
 
-   {% include "header_footer.html" %}
+   {% include "default/header.html" %}
 
 
    <div class="cuerpo">
       <div class="calendar">
          <div class="calendar__picture">
-            <h2>{{month_name}}, {{year}}</h2>
+            <h3>{{month_name}}</h3>
+            <h4>{{year}}</h4>
 
-            <form class='botones' action='/cal/prev/' method='GET'>
+            <form class="botones" action='/cal/prev/' method='GET'>
+               <button  class="button" type='submit'>«</button>
                <input type="hidden" name="month" value="{{actual_month_number}}">
-               <button type='submit'>prev</button>
             </form>
 
-            <form class='botones' action='/cal/next/' method='GET'>
-               <button type='submit'>next</button>
+            <form class="botones" action='/cal/next/' method='GET'>
+               <button class="button"  type='submit'>»</button>
                <input type="hidden" name="month" value="{{actual_month_number}}">
 
             </form>
                
          </div>
+
          <div class="calendar__date">
             <div class="calendar__day">M</div>
             <div class="calendar__day">T</div>
@@ -104,5 +106,6 @@
             {% endfor %}  
       </div>
    </div>
+   
 </body>
 </html>

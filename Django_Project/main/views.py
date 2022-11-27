@@ -47,4 +47,4 @@ def login(request): #redireccion sign_up
     return render(request, "login.html")
 
 def home(request):
-    return render(request, "header_footer.html")
+    return render(request, "default/header.html")
