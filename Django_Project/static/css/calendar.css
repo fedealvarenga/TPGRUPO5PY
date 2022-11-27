@@ -110,6 +110,10 @@
 }
 
 
-
+span:before{
+  content:" "; 
+  display:inline-block; 
+  width: 174.5px;
+}
 
   
