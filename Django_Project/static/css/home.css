@@ -1,0 +1,22 @@
+body{
+  margin:0;
+  padding:0;
+}
+.container{
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-family: 'Poppins', sans-serif;
+  background-image: linear-gradient(to right, rgba(171, 146, 235, 0.6), rgba(109, 179, 242, .6)), url('../img/lamp.jpg');
+  background-size: cover, cover;
+  background-position: center, right;
+  background-repeat: no-repeat, no-repeat;
+  overflow: hidden; 
+}
+
+.box{
+  display: flex;
+
+}
