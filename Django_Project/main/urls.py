@@ -22,6 +22,11 @@ urlpatterns = [
     path('cal/prev/', cal_prev),
     path('cal/next/', cal_next),
     path('cal/', cal),
+
+
+    path('login/signup/', signup),
+    path('login/user/', login_user),
+    
     
     
    

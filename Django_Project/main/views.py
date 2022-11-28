@@ -43,8 +43,35 @@ def cal_prev(request):
     cal = calendar.monthcalendar(track_year, month)
     return render(request, "calendar.html", {"cal": cal, "year": track_year ,"month_name": calendar.month_name[month], "today_day_number": today.day, "today_month_number": today.month , "actual_month_number": month, "today_year": today.year })
     
-def login(request): #redireccion sign_up
+def login(request): 
     return render(request, "login.html")
 
 def home(request):
     return render(request, "home.html")
+
+
+def signup(request):
+    """   if request.method == "POST":
+
+        data = request.POST
+    """
+    Mail = request.GET["Email"]
+    Apellido = request.GET["Apellido"]
+    Nombre = request.GET["Nombre"]
+    Password = request.GET["Password"]
+
+     
+
+    db = Database()
+    db.add_user(Apellido, Mail, Nombre, Password)
+    return render(request, "login.html")
+
+def login_user(request): 
+    Mail = request.GET["Email"]
+    Password = request.GET["Password"]
+
+    db = Database()
+    person = db.get_user_bymail(Mail)
+
+    if person[0][4] == Password:
+        return render(request, "home.html")
