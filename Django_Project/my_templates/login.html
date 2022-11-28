@@ -6,12 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   {% load static %}
   <link rel="stylesheet" href="{% static 'css/login.css' %}">
-  <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
-  <script type="text/javascript" src="{% static 'js/login.js' %}"></script>
   <title>Log-In</title>
 </head>
 <body>
-
   {% include "default/header.html" %}
   <div class="login">
     <div class="login-page">
@@ -32,5 +29,7 @@
       </div>
     </div>
   </div>
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+  <script type="text/javascript" src="{% static 'js/login.js' %}"></script>
 </body>
 </html>
