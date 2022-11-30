@@ -15,16 +15,16 @@
       <div class="form">
         <form class="register-form" action="/login/signup/" method="GET">
           {% csrf_token %}
-          <input type="text" placeholder="name" name="Nombre"/>
-          <input type="text" placeholder="surname" name="Apellido"/>
-          <input type="password" placeholder="password" name="Password"/>
-          <input type="email" placeholder="email address" name="Email"/>
+          <input type="text" placeholder="name" name="Nombre" required=""/>
+          <input type="text" placeholder="surname" name="Apellido" required=""/>
+          <input type="password" placeholder="password" name="Password" required=""/>
+          <input type="email" placeholder="email address" name="Email" required=""/>
           <button type="submit"><a href="signup/">create</a></button>
           <p class="message">Already registered?<a href="">Sign In</a></p>
         </form>
         <form class="login-form" action="/login/user/" method="GET">
-          <input type="email" placeholder="email" name="Email" />
-          <input type="password" placeholder="password" name="Password"/>
+          <input type="email" placeholder="email" name="Email" required=""/>
+          <input type="password" placeholder="password" name="Password" required=""/>
           <button type="submit"><a href="user/">login</a></button>
           <p class="message">Not registered? <a href="#">Create an account</a></p>
         </form>

@@ -35,5 +35,17 @@ class Database():
             raise 
 
         return
+
+    #hacemos el checkeo en views
+    def modify_user (self, new_apellido, new_nombre, new_password, email):
+        query= f"UPDATE Usuarios SET Apellido = '{new_apellido}', Nombre = '{new_nombre}', Password = '{new_password}' WHERE Email = '{email}'";
+        try: 
+            self.cursor.execute(query) 
+            self.connection.commit()
+        except Exception as e: 
+            print("UPDATE ERROR") 
+            raise 
+
+        return
     
 

@@ -1,12 +1,14 @@
 from django.http import HttpResponse 
 from django.template import Template, Context, loader_tags
 from django.shortcuts import render
+from django.shortcuts import redirect
 from .models import Database
 import calendar  
 import datetime
 
 today = datetime.datetime.today()
 track_year = today.year
+track_user = tuple()
 
 def cal(request, month = today.month):
     global track_year
@@ -60,18 +62,41 @@ def signup(request):
     Nombre = request.GET["Nombre"]
     Password = request.GET["Password"]
 
-     
-
     db = Database()
     db.add_user(Apellido, Mail, Nombre, Password)
     return render(request, "login.html")
 
 def login_user(request): 
+    global track_user
     Mail = request.GET["Email"]
     Password = request.GET["Password"]
 
     db = Database()
     person = db.get_user_bymail(Mail)
+    track_user = person
+    if person == tuple() :
+        return redirect("/login/")
+    elif person[0][4] == Password:
+        track_user = person[0]
+        return redirect("/")
+    else:
+        return redirect("/login/")
 
+def modify_user(request): 
+    Mail = request.GET["Email"]
+    Password = request.GET["Password"]
+    new_Nombre = request.GET["new_Nombre"]
+    new_Apellido = request.GET["new_Apellido"]
+    new_Password = request.GET["new_Password"]
+
+    db = Database()
+    person = db.get_user_bymail(Mail)
     if person[0][4] == Password:
+        db.modify_user(new_Apellido, new_Nombre, new_Password, Mail)
         return render(request, "home.html")
+
+def profile(request):
+    return render(request, "profile.html")
+
+def test(request):
+    return render(request, "test.html", {"user": track_user})

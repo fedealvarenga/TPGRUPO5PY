@@ -23,14 +23,19 @@ urlpatterns = [
     path('cal/next/', cal_next),
     path('cal/', cal),
 
-
+    path('login/', login),
     path('login/signup/', signup),
     path('login/user/', login_user),
+
+    path('profile/', profile),
+    path('profile/user/', modify_user),
+
+    path('test/', test),
     
     
     
    
     
-    path('login/', login),
+   
 
 ]
