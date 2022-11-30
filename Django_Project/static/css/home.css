@@ -2,7 +2,7 @@ body{
   margin:0;
   padding:0;
 }
-.container{
+/* .container{
   position: relative;
   display: flex;
   justify-content: center;
@@ -14,9 +14,27 @@ body{
   background-position: center, right;
   background-repeat: no-repeat, no-repeat;
   overflow: hidden; 
-}
+} */
 
-.box{
+
+/* Acá empieza los estilos de las cards */
+
+.container__card{
+  max-width: 1200px;
+  padding: 20px;
+  padding-bottom: 40px;
+  margin: auto;
+  margin-top: 60px;
   display: flex;
-
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
 }
+
+.card {
+  width: 30px;
+}
+
+
+
+/* Acá finaliza los estilos de las cards */

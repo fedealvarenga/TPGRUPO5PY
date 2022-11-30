@@ -6,19 +6,106 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   {% load static %}
-  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+  <link rel="stylesheet" href="{% static 'css/index.css' %}">
   <title> Home </title>
 </head>
 <body>
-  {% include "default/header.html" %}
-  <div class="container">
-    <div class="box">
-      <div> Parque 1 </div>
-      <div> Parque 2 </div>
-      <div> Parque 3 </div>
-      <div> Parque 4 </div>
+  <!-- Acá comienza la estructura del navbar -->
+  <header class="header">
+    <div class="logo">
+      <img src="../static/img/logo-disney2.png" alt="">
     </div>
+    <nav class="navbar">
+      <ul class="nav-links">
+        <li><a class="a1" href="">Inicio</a></li>
+        <li><a href="">Login</a></li>
+        <li><a href="">Tienda</a></li>
+        <li><a class="a" href=""><img src="../static/img/sin_usuario.png" alt=""></a></li>
+      </ul>
+    </nav>
+    
+  </header>
+  <!-- Acá finaliza la estructura del navbar -->
+
+
+  <!-- Acá comienza la estructura de las cards -->
+  <div class="body__page">
+
+    <div class="container__card">
+
+      <div class="card c1">
+        <div class="icon">
+          <div class="icon_image1">
+
+          </div>
+        </div>
+        <div class="info__description">
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+            Distinctio doloribus dolorem deserunt accusamus provident iure excepturi hic, 
+            minima aliquid et est enim animi quis modi, facilis dolores esse iste voluptates! 
+            Voluptatibus eligendi est, labore veritatis nemo fugit! Laudantium numquam quaerat 
+            beatae atque error quam, eveniet minus cumque ullam molestiae et.
+          </p>
+          <a href=""><input type="buttom" value="Reservar Ahora" readonly></a>
+        </div>
+      </div>
+
+      <div class="card c2">
+        <div class="icon">
+          <div class="icon_image2">
+          </div>
+        </div>
+        <div class="info__description">
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+            Distinctio doloribus dolorem deserunt accusamus provident iure excepturi hic, 
+            minima aliquid et est enim animi quis modi, facilis dolores esse iste voluptates! 
+            Voluptatibus eligendi est, labore veritatis nemo fugit! Laudantium numquam quaerat 
+            beatae atque error quam, eveniet minus cumque ullam molestiae et.
+          </p>
+          <a href=""><input type="buttom" value="Reservar Ahora" readonly></a>
+        </div>
+      </div>
+
+      <div class="card c3">
+        <div class="icon">
+          <div class="icon_image3">
+          </div>
+        </div>
+        <div class="info__description">
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+            Distinctio doloribus dolorem deserunt accusamus provident iure excepturi hic, 
+            minima aliquid et est enim animi quis modi, facilis dolores esse iste voluptates! 
+            Voluptatibus eligendi est, labore veritatis nemo fugit! Laudantium numquam quaerat 
+            beatae atque error quam, eveniet minus cumque ullam molestiae et.
+          </p>
+          <a href=""><input type="buttom" value="Reservar Ahora" readonly></a>
+        </div>
+      </div>
+
+      <div class="card c4">
+        <div class="icon">
+          <div class="icon_image4">
+          </div>
+        </div>
+        <div class="info__description">
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+            Distinctio doloribus dolorem deserunt accusamus provident iure excepturi hic, 
+            minima aliquid et est enim animi quis modi, facilis dolores esse iste voluptates! 
+            Voluptatibus eligendi est, labore veritatis nemo fugit! Laudantium numquam quaerat 
+            beatae atque error quam, eveniet minus cumque ullam molestiae et.
+          </p>
+          <a href=""><input type="buttom" value="Reservar Ahora" readonly></a>
+        </div>
+      </div>
+
+    </div>
+
   </div>
-  {% include "default/footer.html" %}
+<!-- Acá finaliza la estructura de las cards -->
+  
 </body>
 </html>
