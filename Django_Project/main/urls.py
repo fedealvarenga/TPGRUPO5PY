@@ -28,14 +28,6 @@ urlpatterns = [
     path('login/user/', login_user),
 
     path('profile/', profile),
-    path('profile/user/', modify_user),
-
-    path('test/', test),
-    
-    
-    
-   
-    
-   
+    path('profile/user/', modify_user),  
 
 ]
