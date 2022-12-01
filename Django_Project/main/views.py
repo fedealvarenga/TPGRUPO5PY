@@ -52,51 +52,52 @@ def home(request):
     return render(request, "home.html")
 
 
-def signup(request):
-    """   if request.method == "POST":
+def profile(request):
+    return render(request, "profile.html")
 
-        data = request.POST
-    """
-    Mail = request.GET["Email"]
-    Apellido = request.GET["Apellido"]
-    Nombre = request.GET["Nombre"]
-    Password = request.GET["Password"]
+def signup(request):
+    Mail = request.POST["Email"]
+    Apellido = request.POST["Apellido"]
+    Nombre = request.POST["Nombre"]
+    Password = request.POST["Password"]
 
     db = Database()
     db.add_user(Apellido, Mail, Nombre, Password)
-    return render(request, "login.html")
+    return redirect(login)
 
 def login_user(request): 
     global track_user
-    Mail = request.GET["Email"]
-    Password = request.GET["Password"]
+    Mail = request.POST["Email"]
+    Password = request.POST["Password"]
 
     db = Database()
     person = db.get_user_bymail(Mail)
     track_user = person
     if person == tuple() :
-        return redirect("/login/")
+        return redirect(login)
     elif person[0][4] == Password:
         track_user = person[0]
-        return redirect("/")
+        return redirect(home) ## poner datos de factura
     else:
-        return redirect("/login/")
+        return redirect(login)
 
 def modify_user(request): 
-    Mail = request.GET["Email"]
-    Password = request.GET["Password"]
-    new_Nombre = request.GET["new_Nombre"]
-    new_Apellido = request.GET["new_Apellido"]
-    new_Password = request.GET["new_Password"]
+    Mail = request.POST["Email"]
+    Password = request.POST["Password"]
+    new_Nombre = request.POST["new_Nombre"]
+    new_Apellido = request.POST["new_Apellido"]
+    new_Password = request.POST["new_Password"]
 
     db = Database()
     person = db.get_user_bymail(Mail)
-    if person[0][4] == Password:
+    if person == tuple() :
+        return redirect(profile)
+    elif person[0][4] == Password:
         db.modify_user(new_Apellido, new_Nombre, new_Password, Mail)
-        return render(request, "home.html")
+        return redirect(home)
+    else:
+        return redirect(profile)
 
-def profile(request):
-    return render(request, "profile.html")
 
 def test(request):
     return render(request, "test.html", {"user": track_user})
