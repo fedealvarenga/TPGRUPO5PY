@@ -104,3 +104,28 @@ def modify_user(request):
     else:
         return redirect(profile)
 
+
+def test(request):
+    db = Database()
+    date = datetime.date(2022, 12, 4)
+    count = db.get_normal_tickets(date = date , parque = "Magic Kingdom")
+    return HttpResponse(f"normal = {count[0][0]}")
+
+#capacity[0][0] -> normal
+#capacity[0][1] -> fast
+def form_pago(request, y, m, d):
+    db = Database()
+    date = datetime.date(y, m, d)
+    capacity = db.get_capacity(parque = "Magic Kingdom")
+    count_n = db.get_normal_tickets(date = date , parque = "Magic Kingdom")
+    count_f = db.get_fast_tickets(date = date , parque = "Magic Kingdom")
+    count_f = count_f[0][0]
+    count_n = count_n[0][0]
+
+    date = datetime.date(y, m, d)
+    return HttpResponse(f"fecha = {date} \n normal = {count_n} \n fast = {count_f} \n capacidad del dia \n fp: {capacity[0][1] - count_f} \n normal: {capacity[0][0] - count_n} ")
+
+def parque(request, nombre):
+    #return HttpResponse(f"{nombre}")
+    return redirect(f"/{nombre}/cal")
+

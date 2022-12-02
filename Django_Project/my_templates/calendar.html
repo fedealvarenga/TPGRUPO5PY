@@ -51,14 +51,14 @@
                            </div> 
                         {% else %}
                            <div class="calendar__number">
-                              <a href="">{{day}}</a>    
+                              <a href="{% url 'pago' y=year m=actual_month_number d=day %}">{{day}}</a>    
                            </div>
                         {% endif %}
 
                      {% elif actual_month_number == today_month_number %}
                         {% if day >= today_day_number  %}
                            <div class="calendar__number"> 
-                              <a href="">{{day}}</a>     
+                              <a href="{% url 'pago' y=year m=actual_month_number d=day %}">{{day}}</a>     
                            </div>
                         {%elif day == 0%}
                            <div>
@@ -88,7 +88,7 @@
                         </div> 
                      {% else %}
                         <div class="calendar__number">
-                           <a href="">{{day}}</a>    
+                           <a href="{% url 'pago' y=year m=actual_month_number d=day %}">{{day}}</a>    
                         </div>
                      {% endif %}
                   {% else %}

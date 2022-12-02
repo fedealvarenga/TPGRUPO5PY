@@ -14,11 +14,20 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-#falta archivo views.py
+from django.urls import include, path
+
 from .views import *
+
+calendarpatterns = [
+    path('', parque, name='parque'),
+    path('cal/prev/', cal_prev),
+    path('cal/next/', cal_next),
+    path('cal/', cal),
+    path('form_pago/<int:y>/<int:m>/<int:d>', form_pago, name='pago'),
+]
+
 urlpatterns = [
-    path('', home),
+    path('', home, name='Home'),
     path('cal/prev/', cal_prev),
     path('cal/next/', cal_next),
     path('cal/', cal),
@@ -30,4 +39,10 @@ urlpatterns = [
     path('profile/', profile),
     path('profile/user/', modify_user),  
 
+    path('test/', test),
+    path('form_pago/<int:y>/<int:m>/<int:d>', form_pago, name='pago'),
+    path('<str:nombre>/', include(calendarpatterns)),
+    
+
 ]
+

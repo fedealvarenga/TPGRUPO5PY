@@ -47,5 +47,43 @@ class Database():
             raise 
 
         return
+
+
+    #date = yyyy-mm-dd
+    def get_normal_tickets (self, date, parque):
+        query= f"""SELECT COUNT(*) FROM Entradas WHERE Fecha = '{date}' 
+                AND FK_Parque = (SELECT id_Parque FROM Parques WHERE Nombre = '{parque}')
+                AND FK_Tipo_Entrada = (SELECT id_Tipo_Entrada FROM Tipo_Entrada WHERE Tipo = 'normal');"""
+        try: 
+            self.cursor.execute(query) 
+            count_normal = self.cursor.fetchall()
+            return count_normal
+        except Exception as e: 
+            print("ERROR") 
+            raise 
+
+
+    def get_fast_tickets (self, date, parque):
+        query= f"""SELECT COUNT(*) FROM Entradas WHERE Fecha = '{date}' 
+                AND FK_Parque = (SELECT id_Parque FROM Parques WHERE Nombre = '{parque}')
+                AND FK_Tipo_Entrada = (SELECT id_Tipo_Entrada FROM Tipo_Entrada WHERE Tipo = 'fast');"""
+        try: 
+            self.cursor.execute(query) 
+            count_fast = self.cursor.fetchall()
+            return count_fast
+        except Exception as e: 
+            print("ERROR") 
+            raise 
+
+    def get_capacity (self, parque):
+        query= f"SELECT Capacidad_normal, Capacidad_fastpass FROM Parques WHERE Nombre = '{parque}';"
+        try: 
+            self.cursor.execute(query) 
+            capacity = self.cursor.fetchall()
+            return capacity
+        except Exception as e: 
+            print("ERROR") 
+            raise 
+    
     
 
