@@ -20,15 +20,14 @@
             <h3>{{month_name}}</h3>
             <h4>{{year}}</h4>
 
-            <form class="botones" action='/cal/prev/' method='GET'>
+            <form class="botones" action="{% url 'calendar_prev' park_str=park %}" method='GET'>
                <button  class="button" type='submit'>«</button>
                <input type="hidden" name="month" value="{{actual_month_number}}">
             </form>
 
-            <form class="botones" action='/cal/next/' method='GET'>
+            <form class="botones" action="{% url 'calendar_next' park_str=park %}" method='GET'>
                <span><button class="button"  type='submit'>»</button></span>
                <input type="hidden" name="month" value="{{actual_month_number}}">
-
             </form>
                
          </div>
@@ -51,14 +50,14 @@
                            </div> 
                         {% else %}
                            <div class="calendar__number">
-                              <a href="{% url 'pago' y=year m=actual_month_number d=day %}">{{day}}</a>    
+                              <a href="{% url 'pago' y=year m=actual_month_number d=day park_str=park %}">{{day}}</a>    
                            </div>
                         {% endif %}
 
                      {% elif actual_month_number == today_month_number %}
                         {% if day >= today_day_number  %}
                            <div class="calendar__number"> 
-                              <a href="{% url 'pago' y=year m=actual_month_number d=day %}">{{day}}</a>     
+                              <a href="{% url 'pago' y=year m=actual_month_number d=day park_str=park %}">{{day}}</a>     
                            </div>
                         {%elif day == 0%}
                            <div>
@@ -88,7 +87,7 @@
                         </div> 
                      {% else %}
                         <div class="calendar__number">
-                           <a href="{% url 'pago' y=year m=actual_month_number d=day %}">{{day}}</a>    
+                           <a href="{% url 'pago' y=year m=actual_month_number d=day park_str=park %}">{{day}}</a>    
                         </div>
                      {% endif %}
                   {% else %}

@@ -18,19 +18,26 @@ from django.urls import include, path
 
 from .views import *
 
-calendarpatterns = [
+""" calendarpatterns = [
     path('', parque, name='parque'),
     path('cal/prev/', cal_prev),
     path('cal/next/', cal_next),
     path('cal/', cal),
     path('form_pago/<int:y>/<int:m>/<int:d>', form_pago, name='pago'),
 ]
+ """
+
+calendarpatterns = [
+    path('<str:park_str>', cal, name='calendar'),
+    path('<str:park_str>/prev/', cal_prev, name='calendar_prev'),
+    path('<str:park_str>/next/', cal_next, name='calendar_next'),
+]
+
 
 urlpatterns = [
-    path('', home, name='Home'),
-    path('cal/prev/', cal_prev),
-    path('cal/next/', cal_next),
-    path('cal/', cal),
+    path('', home, name='home'),
+    path('cal/', include(calendarpatterns)), 
+    
 
     path('login/', login),
     path('login/signup/', signup),
@@ -40,8 +47,8 @@ urlpatterns = [
     path('profile/user/', modify_user),  
 
     path('test/', test),
-    path('form_pago/<int:y>/<int:m>/<int:d>', form_pago, name='pago'),
-    path('<str:nombre>/', include(calendarpatterns)),
+    path('form_pago/<str:park_str>/<int:y>/<int:m>/<int:d>', form_pago, name='pago'),
+    path('<str:park>/', parque, name='parque'),
     
 
 ]
