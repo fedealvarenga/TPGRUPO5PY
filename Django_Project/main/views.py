@@ -51,9 +51,6 @@ def login(request):
 def home(request):
     return render(request, "home.html")
 
-
-
-
 def profile(request):
     return render(request, "profile.html")
 
@@ -128,7 +125,8 @@ def form_pago(request, y, m, d, park_str):
 
     date = datetime.date(y, m, d)
     
-    return HttpResponse(f"fecha = {date} \n normal = {count_n} \n fast = {count_f} \n capacidad del dia \n fp: {capacity[0][1] - count_f} \n normal: {capacity[0][0] - count_n} ")
+    #aca render
+    return HttpResponse(f"Parque = {park_str} \n fecha = {date} \n normal = {count_n} \n fast = {count_f} \n capacidad del dia \n fp: {capacity[0][1] - count_f} \n normal: {capacity[0][0] - count_n} ")
 
 def parque(request, park):
     #return HttpResponse(f"{nombre}")

@@ -18,15 +18,6 @@ from django.urls import include, path
 
 from .views import *
 
-""" calendarpatterns = [
-    path('', parque, name='parque'),
-    path('cal/prev/', cal_prev),
-    path('cal/next/', cal_next),
-    path('cal/', cal),
-    path('form_pago/<int:y>/<int:m>/<int:d>', form_pago, name='pago'),
-]
- """
-
 calendarpatterns = [
     path('<str:park_str>', cal, name='calendar'),
     path('<str:park_str>/prev/', cal_prev, name='calendar_prev'),
@@ -48,6 +39,8 @@ urlpatterns = [
 
     path('test/', test),
     path('form_pago/<str:park_str>/<int:y>/<int:m>/<int:d>', form_pago, name='pago'),
+    # luego de form_pago mandar pdf
+    #path('form_pago/success', function), aca seria el POST y se manda el pdf con render
     path('<str:park>/', parque, name='parque'),
     
 
