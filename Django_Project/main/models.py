@@ -5,9 +5,9 @@ class Database():
     def __init__(self):
         self.connection = pymysql.connect(
         host='localhost',
-        user='user',
-        password='123test456',
-        db='Proyecto'
+        user='root',
+        password='1234',
+        db='proyecto'
     ) 
     #chequeo que la bbdd este en funcionamiento, sino no se conecta
     #y lanza un error (no llega al print)
@@ -85,5 +85,33 @@ class Database():
             print("ERROR") 
             raise 
     
+    def insert_ticket (self, normal,parque,fecha): #falta usuario y fastpass
+
+        #Es para transformar el nombre del parque en la fk de la base de datos
+        if parque == "Magic":
+            fk_parque=1
+        elif parque == "Animal":
+            fk_parque=2
+        elif parque == "Holliwood":
+            fk_parque=3
+        elif parque == "EPCOT":
+            fk_parque=4
+        #Es para transformar el tipo de entrada en la fk de la base de datos
+        if normal != " " or normal != None:
+            fk_tipo_entrada = 1
+            fk_factura= 1
+        else:
+            fk_tipo_entrada = 2
+            fk_factura= 2
+
+        query= f"INSERT INTO entradas (FK_Tipo_Entrada, FK_Parque, FK_Factura, FK_Usuario, Fecha,Precio) VALUES ({fk_tipo_entrada}, {fk_parque}, {fk_factura}, 1,'{fecha}',1000);" 
+        try: 
+            self.cursor.execute(query) 
+            self.connection.commit()
+        except Exception as e: 
+            print("INSERT ERROR") 
+            raise 
+
+        return
     
 

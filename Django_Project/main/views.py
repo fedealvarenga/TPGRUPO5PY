@@ -54,6 +54,7 @@ def home(request):
 def profile(request):
     return render(request, "profile.html")
 
+
 def signup(request):
     if request.method == "POST":
         Mail = request.POST["Email"]
@@ -123,12 +124,43 @@ def form_pago(request, y, m, d, park_str):
     count_f = count_f[0][0]
     count_n = count_n[0][0]
 
+    # Calculo la capacidad de entradas normales
+    normal_capacity=capacity[0][0] - count_n
+    # Calculo la capacidad de entradas fastpass
+    fastpass_capacity=capacity[0][1] - count_f
+    # Creo dos listas para poder cargar la capacidad de las dos para el front
+    n_normal_tickets= []
+    n_fastpass_tickets= []
+
+    #cargo las listas para el front teniendo como tope las capacidades (normal/fastpass) actuales
+    for n in range(1,normal_capacity+1):
+        n_normal_tickets.append(n)
+
+    for m in range(1,fastpass_capacity+1):
+        n_fastpass_tickets.append(m)
+
     date = datetime.date(y, m, d)
     
-    #aca render
-    return HttpResponse(f"Parque = {park_str} \n fecha = {date} \n normal = {count_n} \n fast = {count_f} \n capacidad del dia \n fp: {capacity[0][1] - count_f} \n normal: {capacity[0][0] - count_n} ")
+    #cambio el return HttprResponse por el render (aunque lo dejo comentado por las dudas)
+    return render(request,"buy.html", {"name_park":park_str,"travel_year":date.year,"travel_month":date.month,"travel_day":date.day,"n_tickets":n_normal_tickets,"fp_tickets":n_fastpass_tickets})
+    
+    #return HttpResponse(f"Parque = {park_str} \n fecha = {date} \n normal = {count_n} \n fast = {count_f} \n capacidad del dia \n fp: {capacity[0][1] - count_f} \n normal: {capacity[0][0] - count_n} ")
 
 def parque(request, park):
     #return HttpResponse(f"{nombre}")
     return HttpResponseRedirect(reverse('calendar', args=(park,)))
 
+
+def add_ticket(request): 
+    if request.method == "POST":
+        park_name = request.POST["Park"]
+        date= request.POST["t_date"]
+        norm = request.POST["normal"]
+        #fast = request.POST["fastpass"]
+
+        db = Database()
+        db.insert_ticket(norm,park_name,date)
+        return redirect(home)
+        
+    else:
+        return redirect(profile)

@@ -39,9 +39,12 @@ urlpatterns = [
 
     path('test/', test),
     path('form_pago/<str:park_str>/<int:y>/<int:m>/<int:d>', form_pago, name='pago'),
+    path('form_pago/<str:park_str>/<int:y>/<int:m>/buy/', add_ticket), 
+
     # luego de form_pago mandar pdf
     #path('form_pago/success', function), aca seria el POST y se manda el pdf con render
     path('<str:park>/', parque, name='parque'),
+    
     
 
 ]
