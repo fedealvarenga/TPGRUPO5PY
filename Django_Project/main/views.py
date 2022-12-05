@@ -128,7 +128,7 @@ def form_pago(request, y, m, d, park_str):
     normal_capacity=capacity[0][0] - count_n
     # Calculo la capacidad de entradas fastpass
     fastpass_capacity=capacity[0][1] - count_f
-    # Creo dos listas para poder cargar la capacidad de las dos para el front
+    """   # Creo dos listas para poder cargar la capacidad de las dos para el front
     n_normal_tickets= []
     n_fastpass_tickets= []
 
@@ -137,12 +137,13 @@ def form_pago(request, y, m, d, park_str):
         n_normal_tickets.append(n)
 
     for m in range(1,fastpass_capacity+1):
-        n_fastpass_tickets.append(m)
+        n_fastpass_tickets.append(m) """
+
 
     date = datetime.date(y, m, d)
     
     #cambio el return HttprResponse por el render (aunque lo dejo comentado por las dudas)
-    return render(request,"buy.html", {"name_park":park_str,"travel_year":date.year,"travel_month":date.month,"travel_day":date.day,"n_tickets":n_normal_tickets,"fp_tickets":n_fastpass_tickets})
+    return render(request,"buy.html", {"name_park":park_str,"travel_year":date.year,"travel_month":date.month,"travel_day":date.day,"n_tickets": range(0, normal_capacity+1) ,"fp_tickets": range(0, fastpass_capacity+1)})
     
     #return HttpResponse(f"Parque = {park_str} \n fecha = {date} \n normal = {count_n} \n fast = {count_f} \n capacidad del dia \n fp: {capacity[0][1] - count_f} \n normal: {capacity[0][0] - count_n} ")
 
@@ -151,16 +152,42 @@ def parque(request, park):
     return HttpResponseRedirect(reverse('calendar', args=(park,)))
 
 
-def add_ticket(request): 
+def add_ticket(request):
+    PRICE_FAST = 1000
+    PRICE_NORMAL = 500 
     if request.method == "POST":
+        dtime = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         park_name = request.POST["Park"]
         date= request.POST["t_date"]
-        norm = request.POST["normal"]
-        #fast = request.POST["fastpass"]
+        normal = int(request.POST.getlist("lista_normal")[0])
+        fast = int(request.POST.getlist("lista_fastpass")[0])
+
+        Mail = request.POST["Email"]
+        Password = request.POST["Password"]
 
         db = Database()
-        db.insert_ticket(norm,park_name,date)
-        return redirect(home)
+        person = db.get_user_bymail(Mail)
         
+        if person == tuple() :
+            return redirect(add_ticket)
+        elif person[0][4] == Password:
+            id_user = person[0][0]
+
+            total = normal*(PRICE_NORMAL) + fast*(PRICE_FAST)
+
+            if normal == 0 and fast == 0:
+                return redirect(profile)
+            if normal != 0 or fast != 0:
+                db.add_factura(id_user, dtime, total)
+                id_factura = db.get_factura(id_user, dtime)[0][0]
+            if normal != 0:
+                for i in range(normal):
+                    db.insert_ticket(1, id_user, id_factura, park_name, date)
+            if fast != 0:
+                for i in range(fast):
+                    db.insert_ticket(2, id_user, id_factura, park_name, date)
+        
+        return redirect(home)##pasar PDF
+        ##return redirect(success)
     else:
         return redirect(profile)

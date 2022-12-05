@@ -5,9 +5,9 @@ class Database():
     def __init__(self):
         self.connection = pymysql.connect(
         host='localhost',
-        user='root',
-        password='1234',
-        db='proyecto'
+        user='user', #user // root
+        password="123test456" , # 123test456 // 1234
+        db='Proyecto'
     ) 
     #chequeo que la bbdd este en funcionamiento, sino no se conecta
     #y lanza un error (no llega al print)
@@ -85,7 +85,7 @@ class Database():
             print("ERROR") 
             raise 
     
-    def insert_ticket (self, normal,parque,fecha): #falta usuario y fastpass
+    def insert_ticket (self, tipo_entrada, fk_user, fk_factura, parque, fecha): 
 
         #Es para transformar el nombre del parque en la fk de la base de datos
         if parque == "Magic":
@@ -97,21 +97,50 @@ class Database():
         elif parque == "EPCOT":
             fk_parque=4
         #Es para transformar el tipo de entrada en la fk de la base de datos
-        if normal != "" or normal != None:
+        if tipo_entrada == 1:
             fk_tipo_entrada = 1
-            fk_factura= 1
+            query = f"INSERT INTO Entradas (FK_Tipo_Entrada, FK_Parque, FK_Factura, FK_Usuario, Fecha, Precio) VALUES ({fk_tipo_entrada}, {fk_parque}, {fk_factura}, {fk_user},'{fecha}',500);" 
         else:
             fk_tipo_entrada = 2
-            fk_factura= 2
+            query = f"INSERT INTO Entradas (FK_Tipo_Entrada, FK_Parque, FK_Factura, FK_Usuario, Fecha, Precio) VALUES ({fk_tipo_entrada}, {fk_parque}, {fk_factura}, {fk_user},'{fecha}',1000);" 
 
-        query= f"INSERT INTO entradas (FK_Tipo_Entrada, FK_Parque, FK_Factura, FK_Usuario, Fecha,Precio) VALUES ({fk_tipo_entrada}, {fk_parque}, {fk_factura}, 1,'{fecha}',1000);" 
+       
         try: 
             self.cursor.execute(query) 
             self.connection.commit()
         except Exception as e: 
             print("INSERT ERROR") 
             raise 
-
         return
     
+    
+    def add_factura (self, fk_user, dtime, total):
+        query = f"INSERT INTO Factura (FK_Usuario, Facturacol, Total) VALUES ({fk_user},'{dtime}',{total});"
+        try: 
+            self.cursor.execute(query) 
+            self.connection.commit()
+        except Exception as e: 
+            print("INSERT ERROR") 
+            raise 
+        return
 
+    def get_factura (self, id_user, dtime):
+        query= f"""SELECT * FROM Factura WHERE FK_Usuario = {id_user}
+                AND Facturacol = '{dtime}'"""
+        try: 
+            self.cursor.execute(query) 
+            factura = self.cursor.fetchall()
+            return factura
+        except Exception as e: 
+            print("ERROR") 
+            raise 
+
+    def get_all_facturas (self, id_user):
+        query= f"SELECT * FROM Factura WHERE FK_Usuario = {id_user}"
+        try: 
+            self.cursor.execute(query) 
+            facturas = self.cursor.fetchall()
+            return facturas
+        except Exception as e: 
+            print("ERROR") 
+            raise 

@@ -18,19 +18,21 @@
           <input type="text" placeholder={{name_park}} name="Park" value={{name_park}} readonly/>
           <input type="text" placeholder="{{travel_year}}-{{travel_month}}-{{travel_day}}" name="t_date" value="{{travel_year}}-{{travel_month}}-{{travel_day}}" readonly=""/>
           <label for="">Seleccione la cantidad de entradas de tipo normal</label>
-          <select name="lista" id="">
-            {% for normal in n_tickets %}
-            <option name="ticket{{normal}}">{{normal}}</option>
+          <select name="lista_normal" id="">
+            {% for x in n_tickets %}
+              <option>{{x}}</option>
             {% endfor %}
           </select>
-          <!-- <label for="">Seleccione la cantidad de entradas de tipo fastpass</label>
-          <select name="lista" id="">
-            {% for fastpass in fp_tickets %}
-            <option name="fastpass">{{fastpass}}</option>
+      
+          <label for="">Seleccione la cantidad de entradas de tipo fastpass</label>
+          <select name="lista_fastpass" id="">
+            {% for x in fp_tickets %}
+              <option>{{x}}</option>
             {% endfor %}
-          </select> -->
-          <input type="text" placeholder=name name="user" required/>
-          <input type="password" placeholder=password name="password" required/>
+          </select>
+
+          <input type="email" placeholder=Email name="Email" required/>
+          <input type="password" placeholder=password name="Password" required/>
           
           <button type="submit"><a href=" ">Buy</a></button>
         </form>
