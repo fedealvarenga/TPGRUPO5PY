@@ -12,12 +12,13 @@
 <!-- Acá comienza la estructura del navbar -->
 <header class="header">
 	<div class="logo">
-		<a href="\"><img src="../static/img/logo-disney2.png" alt=""></a>
+		<a href="\"><img src="../../../static/img/logo-disney2.png" alt=""></a>
 	</div>
 	<nav class="navbar">
 		<ul class="nav-links">
-			<li><a href="\login">Sign-up</a></li>
-			<li><a class="a" href="\profile"><img src="../static/img/sin_usuario.png" alt=""></a></li>
+			<li><a href="{% url 'signup' %}">Sign-up</a></li>
+			<li><a href="{% url 'facturas' %}">Factura</a></li>
+			<li><a class="a" href="\profile"><img src="../../../static/img/sin_usuario.png" alt=""></a></li>
 		</ul>
 	</nav>
 	

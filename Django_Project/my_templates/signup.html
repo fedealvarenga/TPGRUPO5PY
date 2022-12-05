@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/login.css' %}">
+  <title>Sign-Up</title>
+</head>
+<body>
+  {% include "default/header.html" %}
+  <div class="login">
+    <div class="login-page">
+      <div class="form">
+        <form class="login-form" action="{% url 'buttom_signup' %}" method="POST">
+          {% csrf_token %}
+          <input type="text" placeholder="name" name="Nombre" required=""/>
+          <input type="text" placeholder="surname" name="Apellido" required=""/>
+          <input type="password" placeholder="password" name="Password" required=""/>
+          <input type="email" placeholder="email address" name="Email" required=""/>
+          <button type="submit"><a href="signup/">create</a></button>
+          <p class="message">Already registered?<a href="{% url 'login' %}">Sign In</a></p>
+        </form>
+      </div>
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+  <script type="text/javascript" src="{% static 'js/login.js' %}"></script>-->
+  {% include "default/footer.html" %}
+</body>
+</html>

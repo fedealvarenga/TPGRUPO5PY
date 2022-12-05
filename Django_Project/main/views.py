@@ -54,8 +54,10 @@ def home(request):
 def profile(request):
     return render(request, "profile.html")
 
+def facturas(request):
+    return render(request, "facturas.html")
 
-def signup(request):
+def buttom_signup(request):
     if request.method == "POST":
         Mail = request.POST["Email"]
         Apellido = request.POST["Apellido"]
@@ -67,6 +69,9 @@ def signup(request):
         return redirect(login)
     else:
         return redirect(login)
+
+def signup(request):
+    return render(request, "signup.html")
 
 def login_user(request): 
     if request.method == "POST":
@@ -80,7 +85,7 @@ def login_user(request):
         if person == tuple() :
             return redirect(login)
         elif person[0][4] == Password:
-            return redirect(home) ## poner datos de factura
+            return redirect(facturas) ## poner datos de factura
         else:
             return redirect(login)
     else:
@@ -191,3 +196,14 @@ def add_ticket(request):
         ##return redirect(success)
     else:
         return redirect(profile)
+
+
+def verFacturas(request, usuario, fecha, precio):
+    db = Database()
+    date = datetime.date(y, m, d)
+    cantidad = db.get_capacity(parque = park_str)
+    
+    #cambio el return HttprResponse por el render (aunque lo dejo comentado por las dudas)
+    return render(request,"buy.html", {"name_park":park_str,"travel_year":date.year,"travel_month":date.month,"travel_day":date.day,"n_tickets": range(0, normal_capacity+1) ,"fp_tickets": range(0, fastpass_capacity+1)})
+    
+    #return HttpResponse(f"Parque = {park_str} \n fecha = {date} \n normal = {count_n} \n fast = {count_f} \n capacidad del dia \n fp: {capacity[0][1] - count_f} \n normal: {capacity[0][0] - count_n} ")

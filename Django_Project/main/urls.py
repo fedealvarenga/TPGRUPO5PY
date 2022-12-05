@@ -30,9 +30,11 @@ urlpatterns = [
     path('cal/', include(calendarpatterns)), 
     
 
-    path('login/', login),
-    path('login/signup/', signup),
+    path('login/', login, name='login'),
+    path('signup/', signup, name='signup'),
+    path('signup/action', buttom_signup, name='buttom_signup'),
     path('login/user/', login_user),
+    path('login/user/facturas/', facturas, name='facturas'),
 
     path('profile/', profile),
     path('profile/user/', modify_user),  

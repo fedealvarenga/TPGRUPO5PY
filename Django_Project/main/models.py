@@ -5,9 +5,9 @@ class Database():
     def __init__(self):
         self.connection = pymysql.connect(
         host='localhost',
-        user='user', #user // root
-        password="123test456" , # 123test456 // 1234
-        db='Proyecto'
+        user='root', #user // root
+        password="1234" , # 123test456 // 1234
+        db='proyecto'
     ) 
     #chequeo que la bbdd este en funcionamiento, sino no se conecta
     #y lanza un error (no llega al print)

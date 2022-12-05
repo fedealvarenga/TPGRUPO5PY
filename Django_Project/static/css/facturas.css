@@ -1,0 +1,19 @@
+body{
+    margin:0;
+    padding:0;
+  }
+  
+  /* Acá empieza los estilos de las cards */
+
+  
+.card {
+    max-height: 500px !important;
+    width: 90% !important;
+    margin-right: 100px !important;
+    margin-left: 100px !important;
+  }
+
+.card-text{
+margin-top: 20px;
+}
+
