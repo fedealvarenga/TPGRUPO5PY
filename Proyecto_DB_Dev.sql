@@ -41,7 +41,7 @@ CREATE TABLE `Entradas` (
   CONSTRAINT `fk_Entradas_Parques1` FOREIGN KEY (`FK_Parque`) REFERENCES `Parques` (`id_Parque`),
   CONSTRAINT `fk_Entradas_Tipo_Entrada1` FOREIGN KEY (`FK_Tipo_Entrada`) REFERENCES `Tipo_Entrada` (`id_Tipo_Entrada`),
   CONSTRAINT `fk_Entradas_Usuarios1` FOREIGN KEY (`FK_Usuario`) REFERENCES `Usuarios` (`id_Usuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -50,7 +50,7 @@ CREATE TABLE `Entradas` (
 
 LOCK TABLES `Entradas` WRITE;
 /*!40000 ALTER TABLE `Entradas` DISABLE KEYS */;
-INSERT INTO `Entradas` VALUES (6,1,1,1,1,'2022-12-06',500),(7,1,1,1,1,'2022-12-06',500);
+INSERT INTO `Entradas` VALUES (9,1,1,2,1,'2022-12-06',500),(10,2,1,2,1,'2022-12-06',1000),(11,1,1,3,1,'2022-12-06',500),(12,2,1,3,1,'2022-12-06',1000),(13,2,1,3,1,'2022-12-06',1000),(14,2,1,3,1,'2022-12-06',1000);
 /*!40000 ALTER TABLE `Entradas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -64,12 +64,12 @@ DROP TABLE IF EXISTS `Factura`;
 CREATE TABLE `Factura` (
   `id_Factura` int NOT NULL AUTO_INCREMENT,
   `FK_Usuario` int NOT NULL,
-  `Facturacol` varchar(45) DEFAULT NULL,
+  `Facturacol` datetime NOT NULL,
   `Total` float DEFAULT NULL,
   PRIMARY KEY (`id_Factura`),
   KEY `fk_Factura_Usuarios1_idx` (`FK_Usuario`),
   CONSTRAINT `fk_Factura_Usuarios1` FOREIGN KEY (`FK_Usuario`) REFERENCES `Usuarios` (`id_Usuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -78,7 +78,7 @@ CREATE TABLE `Factura` (
 
 LOCK TABLES `Factura` WRITE;
 /*!40000 ALTER TABLE `Factura` DISABLE KEYS */;
-INSERT INTO `Factura` VALUES (1,1,'desc',500);
+INSERT INTO `Factura` VALUES (1,1,'2022-12-05 03:33:42',1000),(2,1,'2022-12-05 03:48:45',1500),(3,1,'2022-12-05 03:50:27',3500);
 /*!40000 ALTER TABLE `Factura` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -171,4 +171,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-12-04 23:33:41
+-- Dump completed on 2022-12-05  1:38:07
