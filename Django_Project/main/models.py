@@ -92,12 +92,12 @@ class Database():
             fk_parque=1
         elif parque == "Animal":
             fk_parque=2
-        elif parque == "Holliwood":
+        elif parque == "Hollywood":
             fk_parque=3
         elif parque == "EPCOT":
             fk_parque=4
         #Es para transformar el tipo de entrada en la fk de la base de datos
-        if normal != " " or normal != None:
+        if normal != "" or normal != None:
             fk_tipo_entrada = 1
             fk_factura= 1
         else:

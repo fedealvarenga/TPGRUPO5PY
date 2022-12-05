@@ -13,14 +13,14 @@
   <div class="login">
     <div class="login-page">
       <div class="form">
-        <form class="login-form" action="buy/" method="POST">
+        <form class="login-form" action="{% url 'buy'  %}" method="POST">
           {% csrf_token %}
           <input type="text" placeholder={{name_park}} name="Park" value={{name_park}} readonly/>
           <input type="text" placeholder="{{travel_year}}-{{travel_month}}-{{travel_day}}" name="t_date" value="{{travel_year}}-{{travel_month}}-{{travel_day}}" readonly=""/>
           <label for="">Seleccione la cantidad de entradas de tipo normal</label>
           <select name="lista" id="">
             {% for normal in n_tickets %}
-            <option name="normal">{{normal}}</option>
+            <option name="ticket{{normal}}">{{normal}}</option>
             {% endfor %}
           </select>
           <!-- <label for="">Seleccione la cantidad de entradas de tipo fastpass</label>
@@ -29,8 +29,10 @@
             <option name="fastpass">{{fastpass}}</option>
             {% endfor %}
           </select> -->
+          <input type="text" placeholder=name name="user" required/>
+          <input type="password" placeholder=password name="password" required/>
           
-          <button type="submit"><a href="buy/">Buy</a></button>
+          <button type="submit"><a href=" ">Buy</a></button>
         </form>
         
       </div>
