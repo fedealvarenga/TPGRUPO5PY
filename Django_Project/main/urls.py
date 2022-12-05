@@ -14,9 +14,20 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import include, path, register_converter
 
 from .views import *
+
+class FloatUrlParameterConverter:
+    regex = '[0-9]+\.?[0-9]+'
+
+    def to_python(self, value):
+        return float(value)
+
+    def to_url(self, value):
+        return str(value)
+
+register_converter(FloatUrlParameterConverter, 'float')
 
 calendarpatterns = [
     path('<str:park_str>', cal, name='calendar'),
@@ -34,7 +45,7 @@ urlpatterns = [
     path('signup/', signup, name='signup'),
     path('signup/action', buttom_signup, name='buttom_signup'),
     path('login/user/', login_user),
-    path('login/user/facturas/', facturas, name='facturas'),
+    path('login/user_id:<int:id_user>/facturas/', facturas, name='facturas'),
 
     path('profile/', profile),
     path('profile/user/', modify_user),  
@@ -42,6 +53,7 @@ urlpatterns = [
     path('test/', test),
     path('form_pago/<str:park_str>/<int:y>/<int:m>/<int:d>', form_pago, name='pago'),
     path('form_pago/buy/', add_ticket, name='buy'), 
+    path('pdf/<int:id_f>/<str:name>/<float:tot>', create_pdf, name='pdf'),
 
     # luego de form_pago mandar pdf
     #path('form_pago/success', function, name='success'), aca seria el POST y se manda el pdf con render

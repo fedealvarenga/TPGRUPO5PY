@@ -54,9 +54,6 @@ def home(request):
 def profile(request):
     return render(request, "profile.html")
 
-def facturas(request):
-    return render(request, "facturas.html")
-
 def buttom_signup(request):
     if request.method == "POST":
         Mail = request.POST["Email"]
@@ -85,7 +82,8 @@ def login_user(request):
         if person == tuple() :
             return redirect(login)
         elif person[0][4] == Password:
-            return redirect(facturas) ## poner datos de factura
+            #return redirect(facturas) ## poner datos de factura
+            return HttpResponseRedirect(reverse('facturas', args=(person[0][0],)))
         else:
             return redirect(login)
     else:
@@ -198,12 +196,54 @@ def add_ticket(request):
         return redirect(profile)
 
 
-def verFacturas(request, usuario, fecha, precio):
+
+class User:
+    def __init__ (self, user):
+        self.id_user = user[0]
+        self.nombre = user[1]
+        self.apellido = user[2]
+        self.mail = user[3]
+
+    def __str__ (self):
+        return f"{self.id_user} // {self.nombre} // {self.apellido}  // {self.mail}"
+
+class Factura:
+    def __init__ (self, factura):
+        self.id_factura = factura[0]
+        self.fk_user = factura[1]
+        self.dtime = factura[2]
+        self.total = factura[3]
+
+    def __str__ (self):
+        return f"{self.id_factura} // {self.fk_user} // {self.dtime}  // {self.total}"
+
+def facturas(request, id_user):
+    #return render(request, "facturas.html")
     db = Database()
-    date = datetime.date(y, m, d)
-    cantidad = db.get_capacity(parque = park_str)
+    facturas = db.get_all_facturas(id_user)
+    user = db.get_user_byid(id_user)[0]
+
+    lista_facturas = list()
+    for x in facturas:
+        lista_facturas.append(Factura(x))
+
+    user = User(user)
+
+    #return HttpResponse(f"{lista_facturas[0]}")
+
+    return render(request,"facturas.html", {"user": user, "facturas": lista_facturas, 'i': 0})
+
+
+def create_pdf(request, id_f, name, tot):
+    db = Database()
+    n = db.get_data_normal(id_f)
+    f = db.get_data_fast(id_f)
+    date_entradas = db.get_data_fecha(id_f)
+    park = db.get_data_park(id_f) 
+    date_factura = db.get_data_fecha_factura(id_f)
+
+#def make_pdf(titular = user, n = n, f = f, date_factura = date_factura, date_entradas = date_entradas, park = park, total = total, data_in = id_factura):
+
+## retornar PDF
+    return HttpResponse(f"{name} // n:{n} // f:{f} // date:{date_entradas} // park: {park} // total:{tot} // compra = {date_factura} ") 
     
-    #cambio el return HttprResponse por el render (aunque lo dejo comentado por las dudas)
-    return render(request,"buy.html", {"name_park":park_str,"travel_year":date.year,"travel_month":date.month,"travel_day":date.day,"n_tickets": range(0, normal_capacity+1) ,"fp_tickets": range(0, fastpass_capacity+1)})
-    
-    #return HttpResponse(f"Parque = {park_str} \n fecha = {date} \n normal = {count_n} \n fast = {count_f} \n capacidad del dia \n fp: {capacity[0][1] - count_f} \n normal: {capacity[0][0] - count_n} ")
