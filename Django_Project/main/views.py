@@ -4,6 +4,8 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from django.urls import resolve, reverse
 from .models import Database
+from pdf_module.pdf import make_pdf
+import os
 import calendar  
 import datetime
 
@@ -131,17 +133,6 @@ def form_pago(request, y, m, d, park_str):
     normal_capacity=capacity[0][0] - count_n
     # Calculo la capacidad de entradas fastpass
     fastpass_capacity=capacity[0][1] - count_f
-    """   # Creo dos listas para poder cargar la capacidad de las dos para el front
-    n_normal_tickets= []
-    n_fastpass_tickets= []
-
-    #cargo las listas para el front teniendo como tope las capacidades (normal/fastpass) actuales
-    for n in range(1,normal_capacity+1):
-        n_normal_tickets.append(n)
-
-    for m in range(1,fastpass_capacity+1):
-        n_fastpass_tickets.append(m) """
-
 
     date = datetime.date(y, m, d)
     
@@ -151,7 +142,6 @@ def form_pago(request, y, m, d, park_str):
     #return HttpResponse(f"Parque = {park_str} \n fecha = {date} \n normal = {count_n} \n fast = {count_f} \n capacidad del dia \n fp: {capacity[0][1] - count_f} \n normal: {capacity[0][0] - count_n} ")
 
 def parque(request, park):
-    #return HttpResponse(f"{nombre}")
     return HttpResponseRedirect(reverse('calendar', args=(park,)))
 
 
@@ -179,7 +169,7 @@ def add_ticket(request):
             total = normal*(PRICE_NORMAL) + fast*(PRICE_FAST)
 
             if normal == 0 and fast == 0:
-                return redirect(profile)
+                return redirect(home)
             if normal != 0 or fast != 0:
                 db.add_factura(id_user, dtime, total)
                 id_factura = db.get_factura(id_user, dtime)[0][0]
@@ -190,11 +180,10 @@ def add_ticket(request):
                 for i in range(fast):
                     db.insert_ticket(2, id_user, id_factura, park_name, date)
         
-        return redirect(home)##pasar PDF
+        return HttpResponseRedirect(reverse('pdf', args=(id_factura, person[0][1], total)))
         ##return redirect(success)
     else:
-        return redirect(profile)
-
+        return redirect(home)
 
 
 class User:
@@ -242,8 +231,14 @@ def create_pdf(request, id_f, name, tot):
     park = db.get_data_park(id_f) 
     date_factura = db.get_data_fecha_factura(id_f)
 
-#def make_pdf(titular = user, n = n, f = f, date_factura = date_factura, date_entradas = date_entradas, park = park, total = total, data_in = id_factura):
+    pdf_path = make_pdf(titular = name, n = n, f = f, date_factura = date_factura, date_entradas = date_entradas, park = park, total = tot, data_in = id_f)
 
 ## retornar PDF
-    return HttpResponse(f"{name} // n:{n} // f:{f} // date:{date_entradas} // park: {park} // total:{tot} // compra = {date_factura} ") 
-    
+    #return HttpResponse(f"{name} // n:{n} // f:{f} // date:{date_entradas} // park: {park} // total:{tot} // compra = {date_factura} ") 
+
+    with open(f'{pdf_path}', 'rb') as file:
+        response = HttpResponse(file.read(), content_type='application/pdf')
+        response['Content-Disposition'] = f'inline;filename={date_factura}_{tot}.pdf'
+        os.remove(f'{pdf_path}')
+        return response
+
