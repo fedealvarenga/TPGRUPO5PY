@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   {% load static %}
-  <link rel="stylesheet" href="{% static 'css/login.css' %}">
+  <link rel="stylesheet" href="{% static 'css/buy.css' %}">
   <title>Buy</title>
 </head>
 <body>
@@ -17,15 +17,15 @@
           {% csrf_token %}
           <input type="text" placeholder={{name_park}} name="Park" value={{name_park}} readonly/>
           <input type="text" placeholder="{{travel_year}}-{{travel_month}}-{{travel_day}}" name="t_date" value="{{travel_year}}-{{travel_month}}-{{travel_day}}" readonly=""/>
-          <label for="">Seleccione la cantidad de entradas de tipo normal</label>
-          <select name="lista_normal" id="">
+          <label for="">Seleccione la cantidad de entradas normales</label>
+          <select name="lista_normal" id="" class="lista">
             {% for x in n_tickets %}
               <option>{{x}}</option>
             {% endfor %}
           </select>
       
-          <label for="">Seleccione la cantidad de entradas de tipo fastpass</label>
-          <select name="lista_fastpass" id="">
+          <label for="">Seleccione la cantidad de entradas fastpass</label>
+          <select name="lista_fastpass" id="" class="lista">
             {% for x in fp_tickets %}
               <option>{{x}}</option>
             {% endfor %}

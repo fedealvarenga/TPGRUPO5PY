@@ -1,0 +1,96 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+
+.login-page {
+  justify-content: center;
+  align-items: center;   
+  position: relative;
+  padding: 15%;
+  display: flex;
+  scale: 1.5;
+
+}
+.form {
+  position: relative;
+  z-index: 1;
+  background: coral;
+  max-width: 360px;
+  margin: 0 auto 100px;
+  padding: 45px;
+  text-align: center;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  border-radius: 10%;
+}
+.form input {
+  font-family: "Roboto", sans-serif;
+  outline: 1;
+  padding: 10px 20px;
+  width: 100%;
+  margin: 0 0 15px;
+  background: whitesmoke;
+  font-weight: 500;
+  font-size: 20px;
+  cursor: pointer;
+  border: none;
+  border-radius: 20px;
+  box-shadow: 1px 1px 30px -5px #20202049;
+  transition: box-shadow 300ms; 
+}
+.form button {
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: lightsalmon;
+  width: 100%;
+  border: none;
+  border-radius: 20px;
+  padding: 15px;
+  color: black;
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+}
+.form button:hover,.form button:active,.form button:focus {
+  background: whitesmoke;
+  border: solid black 3px;
+}
+
+.login {
+  height: 100vh;
+  background-image: url("../img/dori_bkg.jpg"); 
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-family: "Roboto", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;  
+
+  position: relative;
+  justify-content: center;
+  align-items: center;   
+  overflow: hidden; 
+}
+
+.form button a{
+  text-decoration-line: none;
+  color: #262626;
+}
+
+.lista{
+    width: 100%;
+    height: 40px;
+    margin-bottom: 15px;
+    padding-left: 15px;
+    border: none;
+    border-radius: 20px;
+    font-family: "Roboto", sans-serif;
+    font-size: 20px;
+}
+
+.login-form label{
+    font-family: "Roboto", sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    color: whitesmoke;
+}
+

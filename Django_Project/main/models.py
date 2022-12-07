@@ -5,8 +5,8 @@ class Database():
     def __init__(self):
         self.connection = pymysql.connect(
         host='localhost',
-        user='user', #user // root
-        password="123test456" , # 123test456 // 1234
+        user='root', #user // root
+        password="1234" , # 123test456 // 1234
         db='Proyecto'
     ) 
     #chequeo que la bbdd este en funcionamiento, sino no se conecta
@@ -17,6 +17,12 @@ class Database():
     #METODOS
     def get_user_bymail (self, email):
         query = f"SELECT * FROM Usuarios WHERE Email = ('{email}')"
+        self.cursor.execute(query)
+        user = self.cursor.fetchall()
+        return user
+
+    def get_user_byid (self, id_user):
+        query = f"SELECT * FROM Usuarios WHERE id_Usuario = {id_user}"
         self.cursor.execute(query)
         user = self.cursor.fetchall()
         return user
@@ -144,3 +150,63 @@ class Database():
         except Exception as e: 
             print("ERROR") 
             raise 
+
+    def get_data_fast (self, id_factura):
+        query = f"""
+        SELECT COUNT(*) FROM Entradas WHERE FK_Factura = {id_factura}
+        AND FK_Tipo_Entrada = (SELECT id_Tipo_Entrada FROM Tipo_Entrada WHERE Tipo = "fast");
+        """
+        try: 
+            self.cursor.execute(query) 
+            data = self.cursor.fetchall()
+            return data[0][0]
+        except Exception as e: 
+            print("ERROR") 
+            raise 
+
+
+    def get_data_normal (self, id_factura):
+        query = f"""
+        SELECT COUNT(*) FROM Entradas WHERE FK_Factura = {id_factura}
+        AND FK_Tipo_Entrada = (SELECT id_Tipo_Entrada FROM Tipo_Entrada WHERE Tipo = "normal");
+        """
+        try: 
+            self.cursor.execute(query) 
+            data = self.cursor.fetchall()
+            return data[0][0]
+        except Exception as e: 
+            print("ERROR") 
+            raise 
+
+    def get_data_fecha (self, id_factura):
+        query = f"SELECT Fecha FROM Entradas WHERE FK_Factura = {id_factura} LIMIT 1;"
+        try: 
+            self.cursor.execute(query) 
+            data = self.cursor.fetchall()
+            return data[0][0]
+        except Exception as e: 
+            print("ERROR") 
+            raise 
+
+    def get_data_park (self, id_factura):
+        query = f"SELECT Nombre FROM Parques WHERE id_Parque = (SELECT FK_Parque FROM Entradas WHERE FK_Factura = {id_factura} LIMIT 1);"
+
+        try: 
+            self.cursor.execute(query) 
+            data = self.cursor.fetchall()
+            return data[0][0]
+        except Exception as e: 
+            print("ERROR") 
+            raise
+
+    def get_data_fecha_factura (self, id_factura):
+        query = f"SELECT Facturacol FROM Factura WHERE id_Factura = {id_factura} LIMIT 1;"
+        try: 
+            self.cursor.execute(query) 
+            data = self.cursor.fetchall()
+            return data[0][0]
+        except Exception as e: 
+            print("ERROR") 
+            raise  
+
+

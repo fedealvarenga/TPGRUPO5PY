@@ -4,6 +4,8 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from django.urls import resolve, reverse
 from .models import Database
+from pdf_module.pdf import make_pdf
+import os
 import calendar  
 import datetime
 
@@ -54,8 +56,7 @@ def home(request):
 def profile(request):
     return render(request, "profile.html")
 
-
-def signup(request):
+def buttom_signup(request):
     if request.method == "POST":
         Mail = request.POST["Email"]
         Apellido = request.POST["Apellido"]
@@ -67,6 +68,9 @@ def signup(request):
         return redirect(login)
     else:
         return redirect(login)
+
+def signup(request):
+    return render(request, "signup.html")
 
 def login_user(request): 
     if request.method == "POST":
@@ -80,7 +84,8 @@ def login_user(request):
         if person == tuple() :
             return redirect(login)
         elif person[0][4] == Password:
-            return redirect(home) ## poner datos de factura
+            #return redirect(facturas) ## poner datos de factura
+            return HttpResponseRedirect(reverse('facturas', args=(person[0][0],)))
         else:
             return redirect(login)
     else:
@@ -128,17 +133,6 @@ def form_pago(request, y, m, d, park_str):
     normal_capacity=capacity[0][0] - count_n
     # Calculo la capacidad de entradas fastpass
     fastpass_capacity=capacity[0][1] - count_f
-    """   # Creo dos listas para poder cargar la capacidad de las dos para el front
-    n_normal_tickets= []
-    n_fastpass_tickets= []
-
-    #cargo las listas para el front teniendo como tope las capacidades (normal/fastpass) actuales
-    for n in range(1,normal_capacity+1):
-        n_normal_tickets.append(n)
-
-    for m in range(1,fastpass_capacity+1):
-        n_fastpass_tickets.append(m) """
-
 
     date = datetime.date(y, m, d)
     
@@ -148,7 +142,6 @@ def form_pago(request, y, m, d, park_str):
     #return HttpResponse(f"Parque = {park_str} \n fecha = {date} \n normal = {count_n} \n fast = {count_f} \n capacidad del dia \n fp: {capacity[0][1] - count_f} \n normal: {capacity[0][0] - count_n} ")
 
 def parque(request, park):
-    #return HttpResponse(f"{nombre}")
     return HttpResponseRedirect(reverse('calendar', args=(park,)))
 
 
@@ -176,7 +169,7 @@ def add_ticket(request):
             total = normal*(PRICE_NORMAL) + fast*(PRICE_FAST)
 
             if normal == 0 and fast == 0:
-                return redirect(profile)
+                return redirect(home)
             if normal != 0 or fast != 0:
                 db.add_factura(id_user, dtime, total)
                 id_factura = db.get_factura(id_user, dtime)[0][0]
@@ -187,7 +180,65 @@ def add_ticket(request):
                 for i in range(fast):
                     db.insert_ticket(2, id_user, id_factura, park_name, date)
         
-        return redirect(home)##pasar PDF
+        return HttpResponseRedirect(reverse('pdf', args=(id_factura, person[0][1], total)))
         ##return redirect(success)
     else:
-        return redirect(profile)
+        return redirect(home)
+
+
+class User:
+    def __init__ (self, user):
+        self.id_user = user[0]
+        self.nombre = user[1]
+        self.apellido = user[2]
+        self.mail = user[3]
+
+    def __str__ (self):
+        return f"{self.id_user} // {self.nombre} // {self.apellido}  // {self.mail}"
+
+class Factura:
+    def __init__ (self, factura):
+        self.id_factura = factura[0]
+        self.fk_user = factura[1]
+        self.dtime = factura[2]
+        self.total = factura[3]
+
+    def __str__ (self):
+        return f"{self.id_factura} // {self.fk_user} // {self.dtime}  // {self.total}"
+
+def facturas(request, id_user):
+    #return render(request, "facturas.html")
+    db = Database()
+    facturas = db.get_all_facturas(id_user)
+    user = db.get_user_byid(id_user)[0]
+
+    lista_facturas = list()
+    for x in facturas:
+        lista_facturas.append(Factura(x))
+
+    user = User(user)
+
+    #return HttpResponse(f"{lista_facturas[0]}")
+
+    return render(request,"facturas.html", {"user": user, "facturas": lista_facturas, 'i': 0})
+
+
+def create_pdf(request, id_f, name, tot):
+    db = Database()
+    n = db.get_data_normal(id_f)
+    f = db.get_data_fast(id_f)
+    date_entradas = db.get_data_fecha(id_f)
+    park = db.get_data_park(id_f) 
+    date_factura = db.get_data_fecha_factura(id_f)
+
+    pdf_path = make_pdf(titular = name, n = n, f = f, date_factura = date_factura, date_entradas = date_entradas, park = park, total = tot, data_in = id_f)
+
+## retornar PDF
+    #return HttpResponse(f"{name} // n:{n} // f:{f} // date:{date_entradas} // park: {park} // total:{tot} // compra = {date_factura} ") 
+
+    with open(f'{pdf_path}', 'rb') as file:
+        response = HttpResponse(file.read(), content_type='application/pdf')
+        response['Content-Disposition'] = f'inline;filename={date_factura}_{tot}.pdf'
+        #os.remove(f'{pdf_path}')
+        return response
+
