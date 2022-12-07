@@ -47,5 +47,5 @@ def make_pdf(titular = "placeholder", n = 0, f = 0, date_factura = now, date_ent
   pdf.ln(5)
   pdf.write(5, lor)
   pdf.output(f'pdf_module/{string}.pdf', 'F')
-  #os.remove(img_path)
+  os.remove(img_path)
   return f'pdf_module/{string}.pdf'

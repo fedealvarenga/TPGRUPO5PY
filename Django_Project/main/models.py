@@ -9,7 +9,7 @@ class Database():
         self.connection = pymysql.connect(
         host='localhost',
         user='root', #user // root
-        password="1234" , # 123test456 // 1234
+        password="123test456" , # 123test456 // 1234
         db='Proyecto'
     ) 
     #chequeo que la bbdd este en funcionamiento, sino no se conecta

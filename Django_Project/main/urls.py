@@ -38,6 +38,7 @@ calendarpatterns = [
 
 urlpatterns = [
     path('', home, name='home'),
+    path('filter/', filter_disney, name='filter_disney'),
     path('cal/', include(calendarpatterns)), 
     
 
@@ -58,8 +59,7 @@ urlpatterns = [
     # luego de form_pago mandar pdf
     #path('form_pago/success', function, name='success'), aca seria el POST y se manda el pdf con render
     path('<str:park>/', parque, name='parque'),
-    
-    
 
+        
 ]
 

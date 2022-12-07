@@ -19,7 +19,8 @@
       <div class="card-body">
         <h5 class="card-title">Factura Nro: {{x.id_factura}}</h5>
         <p class="card-text">Fecha de Compra: {{x.dtime}}</p>
-        <p class="card-text">Precio: {{x.total}}</p>
+        <p class="card-text">Precio ARS: {{x.total}}</p>
+        <p class="card-text">Precio USD: {{x.total_usd}}</p>
         <a href="{% url 'pdf' id_f=x.id_factura name=user.nombre tot=x.total %}" class="btn btn-primary">Descargar PDF</a>
       </div>
     </div>
