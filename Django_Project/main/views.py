@@ -12,13 +12,10 @@ import datetime
 import threading
 import cv2
 import imutils
-
+import numpy as np
 
 import requests
-url = 'https://api.apilayer.com/fixer/latest?symbols=ARS,BRL,EUR,GBP,CNY,UYU&base=USD&apikey=Hkh0nTZPyR3vU39anHzASmH2NLmANKyi'
-response = requests.request("GET", url)
-result = response.json()
-usds = result['rates']['ARS']
+
 
 today = datetime.datetime.today()
 track_year = today.year
@@ -67,7 +64,7 @@ def home(request):
 def profile(request):
     return render(request, "profile.html")
 
-def buttom_signup(request):
+def button_signup(request):
     if request.method == "POST":
         Mail = request.POST["Email"]
         Apellido = request.POST["Apellido"]
@@ -75,10 +72,15 @@ def buttom_signup(request):
         Password = request.POST["Password"]
 
         db = Database()
-        db.add_user(Apellido, Mail, Nombre, Password)
-        return redirect(login)
+        person = db.get_user_bymail(Mail)
+        
+        if person == tuple() :
+            db.add_user(Apellido, Mail, Nombre, Password)
+            return redirect(login)
+        else:
+            return redirect(signup)
     else:
-        return redirect(login)
+        return redirect(home)
 
 def signup(request):
     return render(request, "signup.html")
@@ -95,7 +97,6 @@ def login_user(request):
         if person == tuple() :
             return redirect(login)
         elif person[0][4] == Password:
-            #return redirect(facturas) ## poner datos de factura
             return HttpResponseRedirect(reverse('facturas', args=(person[0][0],)))
         else:
             return redirect(login)
@@ -147,10 +148,8 @@ def form_pago(request, y, m, d, park_str):
 
     date = datetime.date(y, m, d)
     
-    #cambio el return HttprResponse por el render (aunque lo dejo comentado por las dudas)
     return render(request,"buy.html", {"name_park":park_str,"travel_year":date.year,"travel_month":date.month,"travel_day":date.day,"n_tickets": range(0, normal_capacity+1) ,"fp_tickets": range(0, fastpass_capacity+1)})
-    
-    #return HttpResponse(f"Parque = {park_str} \n fecha = {date} \n normal = {count_n} \n fast = {count_f} \n capacidad del dia \n fp: {capacity[0][1] - count_f} \n normal: {capacity[0][0] - count_n} ")
+
 
 def parque(request, park):
     return HttpResponseRedirect(reverse('calendar', args=(park,)))
@@ -192,7 +191,6 @@ def add_ticket(request):
                     db.insert_ticket(2, id_user, id_factura, park_name, date)
         
         return HttpResponseRedirect(reverse('pdf', args=(id_factura, person[0][1], total)))
-        ##return redirect(success)
     else:
         return redirect(home)
 
@@ -208,7 +206,7 @@ class User:
         return f"{self.id_user} // {self.nombre} // {self.apellido}  // {self.mail}"
 
 class Factura:
-    def __init__ (self, factura):
+    def __init__ (self, factura, usds):
         self.id_factura = factura[0]
         self.fk_user = factura[1]
         self.dtime = factura[2]
@@ -219,20 +217,20 @@ class Factura:
         return f"{self.id_factura} // {self.fk_user} // {self.dtime}  // {self.total}"
 
 def facturas(request, id_user):
-    #return render(request, "facturas.html")
     db = Database()
     facturas = db.get_all_facturas(id_user)
     user = db.get_user_byid(id_user)[0]
 
-    usds
+    url = 'https://api.apilayer.com/fixer/latest?symbols=ARS,BRL,EUR,GBP,CNY,UYU&base=USD&apikey=Hkh0nTZPyR3vU39anHzASmH2NLmANKyi'
+    response = requests.request("GET", url)
+    result = response.json()
+    usds = result['rates']['ARS']
 
     lista_facturas = list()
     for x in facturas:
-        lista_facturas.append(Factura(x))
+        lista_facturas.append(Factura(x, usds))
 
     user = User(user)
-
-    #return HttpResponse(f"{lista_facturas[0]}")
 
     return render(request,"facturas.html", {"user": user, "facturas": lista_facturas, 'i': 0})
 
@@ -246,9 +244,6 @@ def create_pdf(request, id_f, name, tot):
     date_factura = db.get_data_fecha_factura(id_f)
 
     pdf_path = make_pdf(titular = name, n = n, f = f, date_factura = date_factura, date_entradas = date_entradas, park = park, total = tot, data_in = id_f)
-
-## retornar PDF
-    #return HttpResponse(f"{name} // n:{n} // f:{f} // date:{date_entradas} // park: {park} // total:{tot} // compra = {date_factura} ") 
 
     with open(f'{pdf_path}', 'rb') as file:
         response = HttpResponse(file.read(), content_type='application/pdf')
@@ -264,7 +259,7 @@ def filter_disney(request):
         return StreamingHttpResponse(gen(cam), content_type="multipart/x-mixed-replace;boundary=frame")
     except:
         pass
-    return render(request, 'filter.html')
+    HttpResponse("ERROR")
 
 #to capture video class
 class VideoCamera(object):
@@ -279,7 +274,7 @@ class VideoCamera(object):
     def get_frame(self):
         frame = self.frame
 
-        imagen = cv2.imread("module_filtro/minnie.png", cv2.IMREAD_UNCHANGED)# me da 4 canales y el 4to es el fondo transparente del png
+        imagen = cv2.imread("../filtro/minnie.png", cv2.IMREAD_UNCHANGED)# me da 4 canales y el 4to es el fondo transparente del png
         # Detector de rostros
         faceClassif = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 
@@ -289,6 +284,7 @@ class VideoCamera(object):
             #redimenciono la imagen para que se adepte al rectangulo creado pro el rostro detectado
             imagen_redimensionada = imutils.resize(imagen, width=w)
             filas_image = imagen_redimensionada.shape[0]#shape me da una tupla con el tamaño del array
+            #filas_image = imagen.shape[0]
             col_image = w
             # Agarro una parte de la cara para que la imagen no quede muy arriba
             porcion_alto = filas_image // 4
@@ -319,9 +315,14 @@ class VideoCamera(object):
 
             else:
                 frame[0 : y + porcion_alto, x : x + col_image] = imagen_filtro
-
-        _, jpeg = cv2.imencode('.jpg', frame)
-        return jpeg.tobytes()
+        try:
+            _, jpeg = cv2.imencode('.jpg', frame)
+            return jpeg.tobytes()
+        except:
+            frame = np.zeros((480,640,3), np.uint8)
+            _, jpeg = cv2.imencode('.jpg', frame)
+            return jpeg.tobytes()
+            
 
     def update(self):
         while True:
@@ -333,4 +334,5 @@ def gen(camera):
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
-
+def filter_view(request):
+    return render(request, 'filter.html')

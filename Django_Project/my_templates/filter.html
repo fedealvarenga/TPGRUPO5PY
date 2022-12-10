@@ -6,9 +6,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Filter</title>
 </head>
+
+<style>
+  .video{
+  display:block;
+  margin-left:auto;
+  margin-right:auto;
+  margin-bottom: 100px;
+  margin-top: 100px;
+  width: 1280px;
+  height: 960px;
+  padding: 5px;
+  border: 8px solid coral;
+  }
+
+</style>
+
 <body>
   {% include "default/header.html" %}
-  <p>Filter</p>
+  <img class='video' src="{% url 'filter_disney' %}">
   {% include "default/footer.html" %}
 </body>
+
 </html>

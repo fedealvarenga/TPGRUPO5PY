@@ -38,28 +38,26 @@ calendarpatterns = [
 
 urlpatterns = [
     path('', home, name='home'),
-    path('filter/', filter_disney, name='filter_disney'),
+    path('filter/', filter_view, name='filter_view'),
+    path('filter_disney/', filter_disney, name='filter_disney'),
     path('cal/', include(calendarpatterns)), 
     
 
     path('login/', login, name='login'),
     path('signup/', signup, name='signup'),
-    path('signup/action', buttom_signup, name='buttom_signup'),
+    path('signup/action', button_signup, name='button_signup'),
     path('login/user/', login_user),
     path('login/user_id:<int:id_user>/facturas/', facturas, name='facturas'),
 
-    path('profile/', profile),
-    path('profile/user/', modify_user),  
+    path('profile/', profile, name='profile'),
+    path('profile/user/', modify_user, name='modify_user'),  
 
     path('test/', test),
     path('form_pago/<str:park_str>/<int:y>/<int:m>/<int:d>', form_pago, name='pago'),
     path('form_pago/buy/', add_ticket, name='buy'), 
     path('pdf/<int:id_f>/<str:name>/<float:tot>', create_pdf, name='pdf'),
 
-    # luego de form_pago mandar pdf
-    #path('form_pago/success', function, name='success'), aca seria el POST y se manda el pdf con render
-    path('<str:park>/', parque, name='parque'),
 
-        
+    path('<str:park>/', parque, name='parque'),     
 ]
 
