@@ -10,24 +10,7 @@
   <title> Home </title>
 </head>
 <body>
-  <!-- Acá comienza la estructura del navbar -->
-  <header class="header">
-    <div class="logo">
-      <a href=""><img src="../static/img/logo-disney2.png" alt=""></a>
-    </div>
-    <nav class="navbar">
-      <ul class="nav-links">
-        <li><a href="{% url 'signup' %}">Sign-up</a></li>
-        <li><a href="{% url 'login' %}">Factura</a></li>
-        <li><a href="{% url 'filter_disney' %}">Filter</a></li>
-        <li><a class="a" href="\profile"><img src="../static/img/sin_usuario.png" alt=""></a></li>
-      </ul>
-    </nav>
-    
-  </header>
-  <!-- Acá finaliza la estructura del navbar -->
-
-
+  {% include "default/header.html" %}
   <!-- Acá comienza la estructura de las cards -->
   <div class="body__page">
 
@@ -41,11 +24,9 @@
         </div>
         <div class="info__description">
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-            Distinctio doloribus dolorem deserunt accusamus provident iure excepturi hic, 
-            minima aliquid et est enim animi quis modi, facilis dolores esse iste voluptates! 
-            Voluptatibus eligendi est, labore veritatis nemo fugit! Laudantium numquam quaerat 
-            beatae atque error quam, eveniet minus cumque ullam molestiae et.
+            Magic Kingdom es el reino mágico de Disney World en Orlando. 
+            Un sueño para la mayor parte de los niños del planeta, 
+            un lugar encantado donde encontrarse con los personajes de dibujos animados más famosos del mundo
           </p>
           <a href="{% url 'parque' park='Magic Kingdom' %}"><input type="buttom" value="Reservar Ahora" readonly></a>
         </div>
@@ -58,11 +39,9 @@
         </div>
         <div class="info__description">
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-            Distinctio doloribus dolorem deserunt accusamus provident iure excepturi hic, 
-            minima aliquid et est enim animi quis modi, facilis dolores esse iste voluptates! 
-            Voluptatibus eligendi est, labore veritatis nemo fugit! Laudantium numquam quaerat 
-            beatae atque error quam, eveniet minus cumque ullam molestiae et.
+            Epcot es un acrónimo de Experimental Prototype Community of Tomorrow, 
+            una ciudad utópica del futuro planeada por Walt Disney, es diferente de los otros parques en que muchas de sus atracciones fueron construidas en base a un concepto de futuro y tecnología, 
+            sostenibilidad y educación, en lugar de la reminiscencia a personajes o películas de Disney. 
           </p>
           <a href="{% url 'parque' park='EPCOT' %}"><input type="buttom" value="Reservar Ahora" readonly></a>
         </div>
@@ -106,6 +85,6 @@
 
   </div>
 <!-- Acá finaliza la estructura de las cards -->
-  
+{% include "default/footer.html" %}
 </body>
 </html>

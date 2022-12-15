@@ -15,6 +15,7 @@ import imutils
 
 
 import requests
+
 url = 'https://api.apilayer.com/fixer/latest?symbols=ARS,BRL,EUR,GBP,CNY,UYU&base=USD&apikey=Hkh0nTZPyR3vU39anHzASmH2NLmANKyi'
 response = requests.request("GET", url)
 result = response.json()
