@@ -13,7 +13,7 @@
   <div class="login">
     <div class="login-page">
       <div class="form">
-        <form class="login-form" action="{% url 'buttom_signup' %}" method="POST">
+        <form class="login-form" action="{% url 'button_signup' %}" method="POST">
           {% csrf_token %}
           <input type="text" placeholder="name" name="Nombre" required=""/>
           <input type="text" placeholder="surname" name="Apellido" required=""/>

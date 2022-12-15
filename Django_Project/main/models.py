@@ -23,7 +23,6 @@ class Database():
             query = f"SELECT * FROM usuarios WHERE Email = ('{email}')"
         elif (sistema_operativo=='linux2') or (sistema_operativo=='linux3') or (sistema_operativo=='linux') or (sistema_operativo=='darwin'):
             query = f"SELECT * FROM Usuarios WHERE Email = ('{email}')"
-        #query = f"SELECT * FROM Usuarios WHERE Email = ('{email}')"
         self.cursor.execute(query)
         user = self.cursor.fetchall()
         return user
@@ -33,21 +32,15 @@ class Database():
             query = f"SELECT * FROM usuarios WHERE id_Usuario = {id_user}"
         elif (sistema_operativo=='linux2') or (sistema_operativo=='linux3') or (sistema_operativo=='linux') or (sistema_operativo=='darwin'):
             query = f"SELECT * FROM Usuarios WHERE id_Usuario = {id_user}"
-        #query = f"SELECT * FROM Usuarios WHERE id_Usuario = {id_user}"
         self.cursor.execute(query)
         user = self.cursor.fetchall()
         return user
 
-    """  INSERT INTO Parques (Capacidad_fastpass, Capacidad_normal, Nombre, Ubicacion) VALUES (5, 10, 'Magic Kingdom', 'Florida');    
-    INSERT INTO Parques (Capacidad_fastpass, Capacidad_normal, Nombre, Ubicacion) VALUES (5, 10, 'Animal Kingdom', 'Florida');
-    INSERT INTO Parques (Capacidad_fastpass, Capacidad_normal, Nombre, Ubicacion) VALUES (5, 10, 'Hollywood Studios', 'Florida');
-    INSERT INTO Parques (Capacidad_fastpass, Capacidad_normal, Nombre, Ubicacion) VALUES (5, 10, 'EPCOT', 'Florida'); """
     def add_user (self, apellido, email, nombre, password):
         if (sistema_operativo=='win32') or (sistema_operativo=='win64'):
             query= f"INSERT INTO usuarios (Apellido, Email, Nombre, Password, Usuario) VALUES ('{apellido}', '{email}', '{nombre}', '{password}', 1);"
         elif (sistema_operativo=='linux2') or (sistema_operativo=='linux3') or (sistema_operativo=='linux') or (sistema_operativo=='darwin'):
             query= f"INSERT INTO Usuarios (Apellido, Email, Nombre, Password, Usuario) VALUES ('{apellido}', '{email}', '{nombre}', '{password}', 1);"
-        #query= f"INSERT INTO Usuarios (Apellido, Email, Nombre, Password, Usuario) VALUES ('{apellido}', '{email}', '{nombre}', '{password}', 1);" 
         try: 
             self.cursor.execute(query) 
             self.connection.commit()
@@ -63,7 +56,6 @@ class Database():
             query= f"UPDATE usuarios SET Apellido = '{new_apellido}', Nombre = '{new_nombre}', Password = '{new_password}' WHERE Email = '{email}';"
         elif (sistema_operativo=='linux2') or (sistema_operativo=='linux3') or (sistema_operativo=='linux') or (sistema_operativo=='darwin'):
             query= f"UPDATE Usuarios SET Apellido = '{new_apellido}', Nombre = '{new_nombre}', Password = '{new_password}' WHERE Email = '{email}';"
-        #query= f"UPDATE Usuarios SET Apellido = '{new_apellido}', Nombre = '{new_nombre}', Password = '{new_password}' WHERE Email = '{email}';"
         try: 
             self.cursor.execute(query) 
             self.connection.commit()
@@ -86,9 +78,6 @@ class Database():
                 AND FK_Parque = (SELECT id_Parque FROM Parques WHERE Nombre = '{parque}')
                 AND FK_Tipo_Entrada = (SELECT id_Tipo_Entrada FROM Tipo_Entrada WHERE Tipo = 'normal');"""
 
-        # query= f"""SELECT COUNT(*) FROM Entradas WHERE Fecha = '{date}' 
-        #         AND FK_Parque = (SELECT id_Parque FROM Parques WHERE Nombre = '{parque}')
-        #         AND FK_Tipo_Entrada = (SELECT id_Tipo_Entrada FROM Tipo_Entrada WHERE Tipo = 'normal');"""
         try: 
             self.cursor.execute(query) 
             count_normal = self.cursor.fetchall()
@@ -109,9 +98,6 @@ class Database():
                 AND FK_Parque = (SELECT id_Parque FROM Parques WHERE Nombre = '{parque}')
                 AND FK_Tipo_Entrada = (SELECT id_Tipo_Entrada FROM Tipo_Entrada WHERE Tipo = 'fast');"""
 
-        # query= f"""SELECT COUNT(*) FROM Entradas WHERE Fecha = '{date}' 
-        #         AND FK_Parque = (SELECT id_Parque FROM Parques WHERE Nombre = '{parque}')
-        #         AND FK_Tipo_Entrada = (SELECT id_Tipo_Entrada FROM Tipo_Entrada WHERE Tipo = 'fast');"""
         try: 
             self.cursor.execute(query) 
             count_fast = self.cursor.fetchall()
@@ -125,7 +111,6 @@ class Database():
             query= f"SELECT Capacidad_normal, Capacidad_fastpass FROM parques WHERE Nombre = '{parque}';"
         elif (sistema_operativo=='linux2') or (sistema_operativo=='linux3') or (sistema_operativo=='linux') or (sistema_operativo=='darwin'):
             query= f"SELECT Capacidad_normal, Capacidad_fastpass FROM Parques WHERE Nombre = '{parque}';"
-        #query= f"SELECT Capacidad_normal, Capacidad_fastpass FROM Parques WHERE Nombre = '{parque}';"
         try: 
             self.cursor.execute(query) 
             capacity = self.cursor.fetchall()
@@ -174,7 +159,6 @@ class Database():
             query = f"INSERT INTO factura (FK_Usuario, Facturacol, Total) VALUES ({fk_user},'{dtime}',{total});"
         elif (sistema_operativo=='linux2') or (sistema_operativo=='linux3') or (sistema_operativo=='linux') or (sistema_operativo=='darwin'):
             query = f"INSERT INTO Factura (FK_Usuario, Facturacol, Total) VALUES ({fk_user},'{dtime}',{total});"
-        #query = f"INSERT INTO Factura (FK_Usuario, Facturacol, Total) VALUES ({fk_user},'{dtime}',{total});"
         try: 
             self.cursor.execute(query) 
             self.connection.commit()
@@ -190,8 +174,6 @@ class Database():
         elif (sistema_operativo=='linux2') or (sistema_operativo=='linux3') or (sistema_operativo=='linux') or (sistema_operativo=='darwin'):
             query= f"""SELECT * FROM Factura WHERE FK_Usuario = {id_user}
                 AND Facturacol = '{dtime}'"""
-        # query= f"""SELECT * FROM Factura WHERE FK_Usuario = {id_user}
-        #         AND Facturacol = '{dtime}'"""
         try: 
             self.cursor.execute(query) 
             factura = self.cursor.fetchall()
@@ -224,10 +206,6 @@ class Database():
         SELECT COUNT(*) FROM Entradas WHERE FK_Factura = {id_factura}
         AND FK_Tipo_Entrada = (SELECT id_Tipo_Entrada FROM Tipo_Entrada WHERE Tipo = "fast");
         """
-        # query = f"""
-        # SELECT COUNT(*) FROM Entradas WHERE FK_Factura = {id_factura}
-        # AND FK_Tipo_Entrada = (SELECT id_Tipo_Entrada FROM Tipo_Entrada WHERE Tipo = "fast");
-        # """
         try: 
             self.cursor.execute(query) 
             data = self.cursor.fetchall()
@@ -248,10 +226,6 @@ class Database():
         SELECT COUNT(*) FROM Entradas WHERE FK_Factura = {id_factura}
         AND FK_Tipo_Entrada = (SELECT id_Tipo_Entrada FROM Tipo_Entrada WHERE Tipo = "normal");
         """
-        # query = f"""
-        # SELECT COUNT(*) FROM Entradas WHERE FK_Factura = {id_factura}
-        # AND FK_Tipo_Entrada = (SELECT id_Tipo_Entrada FROM Tipo_Entrada WHERE Tipo = "normal");
-        # """
         try: 
             self.cursor.execute(query) 
             data = self.cursor.fetchall()
@@ -265,7 +239,6 @@ class Database():
             query = f"SELECT Fecha FROM entradas WHERE FK_Factura = {id_factura} LIMIT 1;"
         elif (sistema_operativo=='linux2') or (sistema_operativo=='linux3') or (sistema_operativo=='linux') or (sistema_operativo=='darwin'):
             query = f"SELECT Fecha FROM Entradas WHERE FK_Factura = {id_factura} LIMIT 1;"
-        # query = f"SELECT Fecha FROM Entradas WHERE FK_Factura = {id_factura} LIMIT 1;"
         try: 
             self.cursor.execute(query) 
             data = self.cursor.fetchall()
@@ -279,8 +252,6 @@ class Database():
             query = f"SELECT Nombre FROM parques WHERE id_Parque = (SELECT FK_Parque FROM entradas WHERE FK_Factura = {id_factura} LIMIT 1);"
         elif (sistema_operativo=='linux2') or (sistema_operativo=='linux3') or (sistema_operativo=='linux') or (sistema_operativo=='darwin'):
             query = f"SELECT Nombre FROM Parques WHERE id_Parque = (SELECT FK_Parque FROM Entradas WHERE FK_Factura = {id_factura} LIMIT 1);"
-        # query = f"SELECT Nombre FROM Parques WHERE id_Parque = (SELECT FK_Parque FROM Entradas WHERE FK_Factura = {id_factura} LIMIT 1);"
-
         try: 
             self.cursor.execute(query) 
             data = self.cursor.fetchall()
@@ -294,7 +265,6 @@ class Database():
             query = f"SELECT Facturacol FROM factura WHERE id_Factura = {id_factura} LIMIT 1;"
         elif (sistema_operativo=='linux2') or (sistema_operativo=='linux3') or (sistema_operativo=='linux') or (sistema_operativo=='darwin'):
             query = f"SELECT Facturacol FROM Factura WHERE id_Factura = {id_factura} LIMIT 1;"
-        # query = f"SELECT Facturacol FROM Factura WHERE id_Factura = {id_factura} LIMIT 1;"
         try: 
             self.cursor.execute(query) 
             data = self.cursor.fetchall()
