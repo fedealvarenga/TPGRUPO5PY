@@ -2,6 +2,12 @@ import pymysql
 import sys
 
 sistema_operativo=sys.platform
+
+if (sistema_operativo=='win32') or (sistema_operativo=='win64'):
+    database = 'proyecto'
+elif (sistema_operativo=='linux2') or (sistema_operativo=='linux3') or (sistema_operativo=='linux') or (sistema_operativo=='darwin'):
+    database = 'Proyecto'
+
 #definimos un objetos Base de datos
 class Database():
     #creamos el constructor con la bbdd elegida a traves de pymysql
@@ -9,8 +15,8 @@ class Database():
         self.connection = pymysql.connect(
         host='localhost',
         user='root', #user // root
-        password="1234" , # 123test456 // 1234
-        db='proyecto'
+        password="123test456" , # 123test456 // 1234
+        db = database  
     ) 
     #chequeo que la bbdd este en funcionamiento, sino no se conecta
     #y lanza un error (no llega al print)
