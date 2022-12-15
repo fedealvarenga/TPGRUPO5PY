@@ -4,7 +4,7 @@
   <img src="https://user-images.githubusercontent.com/82116673/206872959-be82a2bc-c779-49a3-a7d5-2100dd00c0d1.png" width="200"/>
 </div>
 
-<center>
+<div align="center">
 
 ![HTML5](https://img.shields.io/badge/-HTML5-000000?style=flat&logo=html5&logoColor=white)
 ![Css](https://img.shields.io/badge/css-black?logo=CSS%20Wizardry&logoColor=white&style=flat)
@@ -13,10 +13,10 @@
 ![Mysql](https://img.shields.io/badge/MYSQL-black?logo=mysql&logoColor=white&style=flat)
 ![Django](https://img.shields.io/badge/DJANGO-black?logo=django&logoColor=white&style=flat)
 
-</center>
+</div>
 
 # Idea 
-El eje del proyecto es realizar una página web que permita Crear, Leer, Modificara y Borrar usuarios (CRUD) con una base de datos. Además se implementa con la reserva de tickets y la generación de una factura que incluye QR en formato PDF.
+El eje del proyecto es realizar una página web que permita Crear, Leer, Modificar y Borrar usuarios (CRUD) con una base de datos. Además se implementa con la reserva de tickets y la generación de una factura que incluye QR en formato PDF.
 
 ## Futuras implementaciones 
 
